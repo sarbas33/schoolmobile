@@ -5,11 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LoginScreen from '../screens/LoginScreen';
 import ParentHomeScreen from '../screens/ParentHomeScreen';
-import StudentHomeScreen from '../screens/StudentHomeScreen';
-import TeacherHomeScreen from '../screens/TeacherHomeScreen';
-import AdminHomeScreen from '../screens/AdminHomeScreen';
-import DriverHomeScreen from '../screens/DriverHomeScreen';
-import PrincipalHomeScreen from '../screens/PrincipalHomeScreen';
+// import StudentHomeScreen from '../screens/StudentHomeScreen';
+// import TeacherHomeScreen from '../screens/TeacherHomeScreen';
+// import AdminHomeScreen from '../screens/AdminHomeScreen';
+// import DriverHomeScreen from '../screens/DriverHomeScreen';
+// import PrincipalHomeScreen from '../screens/PrincipalHomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -35,17 +35,18 @@ const AppNavigator = () => {
       case 'Parent':
         return ParentHomeScreen;
       case 'Student':
-        return StudentHomeScreen;
+        //return StudentHomeScreen;
       case 'Teacher':
-        return TeacherHomeScreen;
+        //return TeacherHomeScreen;
       case 'Admin':
-        return AdminHomeScreen;
+        //return AdminHomeScreen;
       case 'Driver':
-        return DriverHomeScreen;
+        //return DriverHomeScreen;
       case 'Principal':
-        return PrincipalHomeScreen;
+        //return PrincipalHomeScreen;
       default:
-        return LoginScreen;
+          return ParentHomeScreen;
+        //return LoginScreen;
     }
   };
 
