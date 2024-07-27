@@ -1,11 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {AttendanceScreen} from 'AttendanceScreen';
 
-const AcademicsScreen = () => {
+const AcademicsScreen: React.FC = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Academics</Text>
-      {/* Add sub-sections as circular icons */}
+      <View style={styles.iconContainer}>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Attendance')}>
+          <Text style={styles.iconText}>Attendance</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Grades')}>
+          <Text style={styles.iconText}>Grades</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Tests')}>
+          <Text style={styles.iconText}>Tests</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Assignments')}>
+          <Text style={styles.iconText}>Assignments</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Schedule')}>
+          <Text style={styles.iconText}>Schedule</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Projects')}>
+          <Text style={styles.iconText}>Projects</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -15,9 +35,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f8f8f8',
   },
   title: {
     fontSize: 24,
+    marginBottom: 20,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  icon: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#4CAF50',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+  iconText: {
+    color: '#fff',
+    textAlign: 'center',
   },
 });
 
