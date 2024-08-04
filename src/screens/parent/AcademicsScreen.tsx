@@ -1,13 +1,25 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {AttendanceScreen} from 'AttendanceScreen';
+import { useGlobalData } from '../../context/GlobalDataContext';
 
 const AcademicsScreen: React.FC = ({ navigation }) => {
+
+  const { isAttendanceSubjectWise } = useGlobalData();
+
+  const handleAttendanceNavigation = () => {
+      if (isAttendanceSubjectWise) {
+        navigation.navigate('AttendanceCollege');
+      } else {
+        navigation.navigate('Attendance');
+      }
+    };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Academics</Text>
       <View style={styles.iconContainer}>
-        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Attendance')}>
+        <TouchableOpacity style={styles.icon} onPress={handleAttendanceNavigation}>
           <Text style={styles.iconText}>Attendance</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Grades')}>

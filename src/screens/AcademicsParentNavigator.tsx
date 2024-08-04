@@ -3,6 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AcademicsScreen from '../screens/parent/AcademicsScreen';
 import AttendanceScreen from '../screens/parent/AttendanceScreen';
 import AttendanceRecordScreen from '../screens/parent/AttendanceRecordScreen';
+import AttendanceCollegeScreen from '../screens/parent/AttendanceCollegeScreen';
+import AttendanceCollegeRecordScreen from '../screens/parent/AttendanceCollegeRecordScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,14 @@ const AcademicsStackNavigator = () => {
               name="AttendanceRecord"
               component={AttendanceRecordScreen}
             />
+      <Stack.Screen
+               name="AttendanceCollege"
+               component={AttendanceCollegeScreen}
+             />
+      <Stack.Screen
+                name="AttendanceCollegeRecord"
+                component={AttendanceCollegeRecordScreen}
+              />
     </Stack.Navigator>
   );
 };
