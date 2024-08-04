@@ -34,8 +34,8 @@ const AcademicsScreen: React.FC = ({ navigation }) => {
         <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Schedule')}>
           <Text style={styles.iconText}>Schedule</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Projects')}>
-          <Text style={styles.iconText}>Projects</Text>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Quiz')}>
+          <Text style={styles.iconText}>Quiz</Text>
         </TouchableOpacity>
       </View>
     </View>
