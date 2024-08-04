@@ -8,7 +8,7 @@ type AttendanceRecord = {
   status: 'Present' | 'Absent' | 'Late';
 };
 
-const AttendanceScreen: React.FC = () => {
+const AttendanceRecordScreen: React.FC = () => {
   const [attendanceData, setAttendanceData] = useState<AttendanceRecord[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AttendanceScreen;
+export default AttendanceRecordScreen;
