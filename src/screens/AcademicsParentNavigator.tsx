@@ -5,6 +5,8 @@ import AttendanceScreen from '../screens/parent/AttendanceScreen';
 import AttendanceRecordScreen from '../screens/parent/AttendanceRecordScreen';
 import AttendanceCollegeScreen from '../screens/parent/AttendanceCollegeScreen';
 import AttendanceCollegeRecordScreen from '../screens/parent/AttendanceCollegeRecordScreen';
+import GradesScreen from '../screens/parent/GradesScreen';
+import GradesRecordScreen from '../screens/parent/GradesRecordScreen';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +29,14 @@ const AcademicsStackNavigator = () => {
       <Stack.Screen
                 name="AttendanceCollegeRecord"
                 component={AttendanceCollegeRecordScreen}
+              />
+      <Stack.Screen
+               name="Grades"
+               component={GradesScreen}
+             />
+      <Stack.Screen
+                name="GradesRecord"
+                component={GradesRecordScreen}
               />
     </Stack.Navigator>
   );
