@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { fetchDataFromApi } from '../services/apiService';
+import { fetchDataFromApi } from '../services/apiServices';
 
 interface ApiDataContextType {
   data: any[];
