@@ -1,10 +1,18 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { fetchDataFromApi } from '../services/apiServices';
 
+interface Grade {
+  id: string;
+  subject: string;
+  grade: string;
+  code?: string;
+}
+
 interface ApiDataContextType {
   data: any[];
   loading: boolean;
   error: string | null;
+  grades: Grade[];
   refetchData: () => void;
 }
 
@@ -14,13 +22,15 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [grades, setGrades] = useState<Grade[]>([]);
 
   const refetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchDataFromApi();
-      setData(data);
+      const fetchedData = await fetchDataFromApi();
+      setData(fetchedData);
+      setGrades(fetchedGrades.grades);
     } catch (err) {
       setError('Failed to fetch data');
     } finally {
@@ -33,7 +43,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ApiDataContext.Provider value={{ data, loading, error, refetchData }}>
+    <ApiDataContext.Provider value={{ data, loading, error, grades, refetchData }}>
       {children}
     </ApiDataContext.Provider>
   );
