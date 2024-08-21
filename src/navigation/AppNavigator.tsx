@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../screens/LoginScreen';
 import ParentHomeScreen from '../screens/ParentHomeScreen';
 // import StudentHomeScreen from '../screens/StudentHomeScreen';
-// import TeacherHomeScreen from '../screens/TeacherHomeScreen';
+import TeacherHomeScreen from '../screens/TeacherHomeScreen';
 // import AdminHomeScreen from '../screens/AdminHomeScreen';
 // import DriverHomeScreen from '../screens/DriverHomeScreen';
 // import PrincipalHomeScreen from '../screens/PrincipalHomeScreen';
