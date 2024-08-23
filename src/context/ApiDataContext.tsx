@@ -8,6 +8,13 @@ interface Grade {
   code?: string;
 }
 
+interface AttendanceSubjectEntry {
+  id: string;
+  subject: string;
+  grade: string;
+  code?: string;
+}
+
 interface ApiDataContextType {
   data: any[];
   loading: boolean;
@@ -23,6 +30,9 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [grades, setGrades] = useState<Grade[]>([]);
+  const [tests, setTests] = useState<any[]>([]);
+  const [attendanceSubject, setAttendanceSubject] = useState<AttendanceSubjectEntry[]>([]);
+  const [assignments, setAssignments] = useState<any[]>([]);
 
   const refetchData = async () => {
     setLoading(true);
@@ -30,7 +40,10 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
     try {
       const fetchedData = await fetchDataFromApi();
       setData(fetchedData);
-      setGrades(fetchedGrades.grades);
+      setGrades(fetchedData.grades);
+      setAttendanceSubject(fetchedData.attendanceSubjectWise);
+      setTests(fetchedData.tests)
+      setAssignments(fetchedData.assignments)
     } catch (err) {
       setError('Failed to fetch data');
     } finally {
@@ -43,7 +56,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ApiDataContext.Provider value={{ data, loading, error, grades, refetchData }}>
+    <ApiDataContext.Provider value={{ data, loading, error, grades, assignments, attendanceSubject, tests, refetchData }}>
       {children}
     </ApiDataContext.Provider>
   );
