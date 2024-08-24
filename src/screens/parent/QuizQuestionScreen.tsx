@@ -18,7 +18,8 @@ const QuizQuestionScreen: React.FC = () => {
 
   const handleAnswer = (selectedOption: string) => {
     const isCorrect = selectedOption === currentQuestion?.correctAnswer;
-    setSelectedAnswers([...selectedAnswers, selectedOption]);
+    const updatedAnswers = [...selectedAnswers, selectedOption];
+    setSelectedAnswers(updatedAnswers);
 
     if (isCorrect) {
       setCorrectAnswersCount(correctAnswersCount + 1);
@@ -31,7 +32,7 @@ const QuizQuestionScreen: React.FC = () => {
         quizId,
         correctAnswersCount: correctAnswersCount + (isCorrect ? 1 : 0), // Ensure final answer is counted
         totalQuestions: quiz.questions.length,
-        selectedAnswers,
+        selectedAnswers: updatedAnswers, // Pass updated selected answers
       });
     }
   };
