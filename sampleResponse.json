@@ -1,0 +1,177 @@
+{ "grades":  [
+  {
+    "id": "1",
+    "subject": "Mathematics",
+    "code": "MATH101",
+    "grade": "A"
+  },
+  {
+    "id": "2",
+    "subject": "English Literature",
+    "code": "ENG202",
+    "grade": "B+"
+  },
+  {
+    "id": "3",
+    "subject": "Physics",
+    "code": "PHYS303",
+    "grade": "A-"
+  },
+  {
+    "id": "4",
+    "subject": "Chemistry",
+    "code": "CHEM404",
+    "grade": "A"
+  },
+  {
+    "id": "5",
+    "subject": "History",
+    "code": "HIST505",
+    "grade": "A"
+  }
+],
+  "attendanceSubjectWise":
+  [
+    {
+      "id": "1",
+      "code": "MATH101",
+      "subject": "Mathematics",
+      "attendance": 85
+    },
+    {
+      "id": "2",
+      "code": "PHYS102",
+      "subject": "Physics",
+      "attendance": 78
+    },
+    {
+      "id": "3",
+      "code": "CHEM103",
+      "subject": "Chemistry",
+      "attendance": 92
+    },
+    {
+      "id": "4",
+      "code": "BIO104",
+      "subject": "Biology",
+      "attendance": 88
+    },
+    {
+      "id": "5",
+      "code": "ENG105",
+      "subject": "English",
+      "attendance": 95
+    }
+  ],
+  "tests":
+  [
+    {
+      "id": "1",
+      "testType": "First Term Examination",
+      "time": "10:00 AM",
+      "date": "2024-08-20",
+      "subject": "Mathematics",
+      "status": "upcoming"
+    },
+    {
+      "id": "2",
+      "testType": "Mid-Term Examination",
+      "time": "12:00 PM",
+      "date": "2024-08-15",
+      "subject": "Physics",
+      "status": "finished"
+    },
+    {
+      "id": "3",
+      "testType": "Final Examination",
+      "time": "09:00 AM",
+      "date": "2024-08-22",
+      "subject": "Chemistry",
+      "status": "upcoming"
+    },
+    {
+      "id": "4",
+      "testType": "Weekly Test",
+      "time": "02:00 PM",
+      "date": "2024-08-10",
+      "subject": "Biology",
+      "status": "finished"
+    },
+    {
+      "id": "5",
+      "testType": "Quiz",
+      "time": "11:00 AM",
+      "date": "2024-08-18",
+      "subject": "English",
+      "status": "upcoming"
+    }
+  ]
+,
+  "assignments": [
+    {
+      "id": "1",
+      "title": "Math Assignment",
+      "due_date": "2024-09-10",
+      "subject": "Mathematics",
+      "status": "Incomplete"
+    },
+    {
+      "id": "2",
+      "title": "History Essay",
+      "due_date": "2024-09-12",
+      "subject": "History",
+      "status": "Complete"
+    },
+    {
+      "id": "3",
+      "title": "Science Project",
+      "due_date": "2024-09-15",
+      "subject": "Science",
+      "status": "Incomplete"
+    }
+  ],
+  "quiz":
+  [
+    {
+      "id": "quiz1",
+      "quizName": "Math Quiz",
+      "subject": "Mathematics",
+      "questionsCount": 10,
+      "deadline": "2024-08-30T15:00:00Z",
+      "isOverdue": false,
+      "questions": [
+        {
+          "question": "What is 2 + 2?",
+          "options": ["2", "3", "4", "5"],
+          "correctAnswer": "4"
+        },
+        {
+          "question": "What is the square root of 16?",
+          "options": ["2", "3", "4", "5"],
+          "correctAnswer": "4"
+        }
+      ]
+    },
+    {
+      "id": "quiz2",
+      "quizName": "Science Quiz",
+      "subject": "Science",
+      "questionsCount": 8,
+      "deadline": "2024-08-25T12:00:00Z",
+      "isOverdue": false,
+      "questions": [
+        {
+          "question": "What is the boiling point of water?",
+          "options": ["50°C", "100°C", "150°C", "200°C"],
+          "correctAnswer": "100°C"
+        },
+        {
+          "question": "What is the chemical symbol for water?",
+          "options": ["H2", "O2", "H2O", "CO2"],
+          "correctAnswer": "H2O"
+        }
+      ]
+    }
+  ]
+
+}
