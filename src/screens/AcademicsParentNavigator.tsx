@@ -12,6 +12,8 @@ import AssignmentsScreen from '../screens/parent/AssignmentsScreen';
 import AssignmentRecordScreen from '../screens/parent/AssignmentRecordScreen';
 import ScheduleScreen from '../screens/parent/ScheduleScreen';
 import QuizScreen from '../screens/parent/QuizScreen';
+import QuizQuestionScreen from '../screens/parent/QuizQuestionScreen';
+import QuizCompletionScreen from '../screens/parent/QuizCompletionScreen';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +64,14 @@ const AcademicsStackNavigator = () => {
       <Stack.Screen
         name="Quiz"
         component={QuizScreen}
+      />
+      <Stack.Screen
+        name="QuizQuestion"
+        component={QuizQuestionScreen}
+      />
+      <Stack.Screen
+         name="QuizCompletion"
+         component={QuizCompletionScreen}
       />
     </Stack.Navigator>
   );
