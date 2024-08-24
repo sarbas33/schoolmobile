@@ -3,24 +3,26 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 const QuizCompletionScreen: React.FC = () => {
-  const { quizId, correctAnswersCount, totalQuestions } = useRoute().params as {
+  const navigation = useNavigation();
+  const { quizId, correctAnswersCount, totalQuestions, selectedAnswers } = useRoute().params as {
     quizId: string;
     correctAnswersCount: number;
     totalQuestions: number;
+    selectedAnswers: string[];
   };
-  const navigation = useNavigation();
 
-  const scorePercentage = ((correctAnswersCount / totalQuestions) * 100).toFixed(2);
+  const navigateToQuizReview = () => {
+    navigation.navigate('QuizReview', {
+      quizId,
+      selectedAnswers,
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Quiz Completed!</Text>
-      <Text style={styles.resultText}>Quiz ID: {quizId}</Text>
-      <Text style={styles.resultText}>Correct Answers: {correctAnswersCount} / {totalQuestions}</Text>
-      <Text style={styles.resultText}>Your Score: {scorePercentage}%</Text>
-
-      <TouchableOpacity style={styles.finishButton} onPress={() => navigation.navigate('QuizSelectionScreen')}>
-        <Text style={styles.finishButtonText}>Finish</Text>
+      <Text style={styles.resultText}>You got {correctAnswersCount} out of {totalQuestions} correct!</Text>
+      <TouchableOpacity style={styles.reviewButton} onPress={navigateToQuizReview}>
+        <Text style={styles.reviewButtonText}>Review Answers</Text>
       </TouchableOpacity>
     </View>
   );
@@ -32,29 +34,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f8f8f8',
   },
-  title: {
+  resultText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: 'center',
   },
-  resultText: {
-    fontSize: 18,
-    marginVertical: 10,
-  },
-  finishButton: {
+  reviewButton: {
     backgroundColor: '#4CAF50',
-    paddingVertical: 15,
-    paddingHorizontal: 30,
+    padding: 15,
     borderRadius: 8,
-    marginTop: 30,
+    marginTop: 20,
   },
-  finishButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    textAlign: 'center',
+  reviewButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

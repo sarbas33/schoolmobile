@@ -18,19 +18,18 @@ const QuizQuestionScreen: React.FC = () => {
 
   const handleAnswer = (selectedOption: string) => {
     const isCorrect = selectedOption === currentQuestion?.correctAnswer;
-    setSelectedAnswers(prevSelected => [...prevSelected, selectedOption]);
+    setSelectedAnswers([...selectedAnswers, selectedOption]);
 
     if (isCorrect) {
-      setCorrectAnswersCount(prevCount => prevCount + 1);
+      setCorrectAnswersCount(correctAnswersCount + 1);
     }
 
     if (currentQuestionIndex < quiz.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // Using the updated correctAnswersCount with a callback
       navigation.navigate('QuizCompletion', {
         quizId,
-        correctAnswersCount: isCorrect ? correctAnswersCount + 1 : correctAnswersCount,
+        correctAnswersCount: correctAnswersCount + (isCorrect ? 1 : 0), // Ensure final answer is counted
         totalQuestions: quiz.questions.length,
         selectedAnswers,
       });

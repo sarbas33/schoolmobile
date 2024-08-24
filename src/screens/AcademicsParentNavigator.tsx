@@ -14,6 +14,7 @@ import ScheduleScreen from '../screens/parent/ScheduleScreen';
 import QuizScreen from '../screens/parent/QuizScreen';
 import QuizQuestionScreen from '../screens/parent/QuizQuestionScreen';
 import QuizCompletionScreen from '../screens/parent/QuizCompletionScreen';
+import QuizReviewScreen from '../screens/parent/QuizReviewScreen';
 
 const Stack = createStackNavigator();
 
@@ -72,6 +73,10 @@ const AcademicsStackNavigator = () => {
       <Stack.Screen
          name="QuizCompletion"
          component={QuizCompletionScreen}
+      />
+      <Stack.Screen
+          name="QuizReview"
+          component={QuizReviewScreen}
       />
     </Stack.Navigator>
   );
