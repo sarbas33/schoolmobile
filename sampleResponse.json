@@ -1,35 +1,47 @@
-{ "grades":  [
-  {
-    "id": "1",
-    "subject": "Mathematics",
-    "code": "MATH101",
-    "grade": "A"
+{
+
+  "studentName": "Sumesh",
+  "schoolName": "Virat Kohli International School",
+  "attendanceToday": "present",
+  "busTiming": {
+    "minutesAway": 5,
+    "direction": "toSchool",
+    "eta": "08:15 AM"
   },
-  {
-    "id": "2",
-    "subject": "English Literature",
-    "code": "ENG202",
-    "grade": "B+"
-  },
-  {
-    "id": "3",
-    "subject": "Physics",
-    "code": "PHYS303",
-    "grade": "A-"
-  },
-  {
-    "id": "4",
-    "subject": "Chemistry",
-    "code": "CHEM404",
-    "grade": "A"
-  },
-  {
-    "id": "5",
-    "subject": "History",
-    "code": "HIST505",
-    "grade": "A"
-  }
-],
+
+
+  "grades":  [
+    {
+      "id": "1",
+      "subject": "Mathematics",
+      "code": "MATH101",
+      "grade": "A"
+    },
+    {
+      "id": "2",
+      "subject": "English Literature",
+      "code": "ENG202",
+      "grade": "B+"
+    },
+    {
+      "id": "3",
+      "subject": "Physics",
+      "code": "PHYS303",
+      "grade": "A-"
+    },
+    {
+      "id": "4",
+      "subject": "Chemistry",
+      "code": "CHEM404",
+      "grade": "A"
+    },
+    {
+      "id": "5",
+      "subject": "History",
+      "code": "HIST505",
+      "grade": "A"
+    }
+  ],
   "attendanceSubjectWise":
   [
     {
@@ -172,6 +184,32 @@
         }
       ]
     }
-  ]
+  ],
+
+
+  "fees": [
+    {
+      "id": "1",
+      "name": "First Term Fee",
+      "dueDate": "2024-09-30",
+      "amount": 500,
+      "status": "Not Paid"
+    },
+    {
+      "id": "2",
+      "name": "Exam Fee",
+      "dueDate": "2024-10-15",
+      "amount": 200,
+      "status": "Processing"
+    },
+    {
+      "id": "3",
+      "name": "Nature Trip Fee",
+      "dueDate": "2024-11-01",
+      "amount": 100,
+      "status": "Paid"
+    }
+  ],
+  "schoolAccountDetails": "Account No: 123456789, Bank: ABC Bank, IFSC: ABCD0123456"
 
 }

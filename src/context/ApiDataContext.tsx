@@ -31,9 +31,15 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [grades, setGrades] = useState<Grade[]>([]);
   const [tests, setTests] = useState<any[]>([]);
+  const [fees, setFees] = useState<any[]>([]);
   const [attendanceSubject, setAttendanceSubject] = useState<AttendanceSubjectEntry[]>([]);
   const [assignments, setAssignments] = useState<any[]>([]);
   const [quizzes, setQuizzes] = useState<any[]>([]);
+  const [attendanceToday, setAttendanceToday] = useState<any[]>([]);
+  const [studentName, setStudentName] = useState<any[]>([]);
+  const [busTiming, setBusTiming] = useState<any[]>([]);
+  const [schoolName, setSchoolName] = useState<any[]>([]);
+  const [schoolAccountDetails, setSchoolAccountDetails] = useState<any[]>([]);
 
   const refetchData = async () => {
     setLoading(true);
@@ -46,6 +52,12 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
       setTests(fetchedData.tests)
       setQuizzes(fetchedData.quiz)
       setAssignments(fetchedData.assignments)
+      setAttendanceToday(fetchedData.attendanceToday);
+      setStudentName(fetchedData.studentName);
+      setBusTiming(fetchedData.busTiming);
+      setSchoolName(fetchedData.schoolName);
+      setFees(fetchedData.fees);
+      setSchoolAccountDetails(fetchedData.schoolAccountDetails);
     } catch (err) {
       setError('Failed to fetch data');
     } finally {
@@ -58,7 +70,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ApiDataContext.Provider value={{ data, loading, error, grades, quizzes, assignments, attendanceSubject, tests, refetchData }}>
+    <ApiDataContext.Provider value={{ data, loading, error, grades, schoolAccountDetails, fees, studentName, schoolName, attendanceToday, busTiming, quizzes, assignments, attendanceSubject, tests, refetchData }}>
       {children}
     </ApiDataContext.Provider>
   );
