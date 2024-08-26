@@ -23,6 +23,9 @@ target 'ERPSchoolApp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # Add the react-native-vector-icons pod
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'ERPSchoolAppTests' do
     inherit! :complete
     # Pods for testing
