@@ -35,6 +35,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   const [attendanceSubject, setAttendanceSubject] = useState<AttendanceSubjectEntry[]>([]);
   const [assignments, setAssignments] = useState<any[]>([]);
   const [quizzes, setQuizzes] = useState<any[]>([]);
+  const [timetable, setTimetable] = useState<any[]>([]);
   const [attendanceToday, setAttendanceToday] = useState<any[]>([]);
   const [studentName, setStudentName] = useState<any[]>([]);
   const [busTiming, setBusTiming] = useState<any[]>([]);
@@ -51,6 +52,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
       setAttendanceSubject(fetchedData.attendanceSubjectWise);
       setTests(fetchedData.tests)
       setQuizzes(fetchedData.quiz)
+      setTimetable(fetchedData.timetable)
       setAssignments(fetchedData.assignments)
       setAttendanceToday(fetchedData.attendanceToday);
       setStudentName(fetchedData.studentName);
@@ -70,7 +72,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ApiDataContext.Provider value={{ data, loading, error, grades, schoolAccountDetails, fees, studentName, schoolName, attendanceToday, busTiming, quizzes, assignments, attendanceSubject, tests, refetchData }}>
+    <ApiDataContext.Provider value={{ data, loading, error, grades, schoolAccountDetails, fees, studentName, schoolName, attendanceToday, busTiming, quizzes, timetable, assignments, attendanceSubject, tests, refetchData }}>
       {children}
     </ApiDataContext.Provider>
   );
