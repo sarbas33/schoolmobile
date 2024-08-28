@@ -2,7 +2,8 @@
 
   "studentName": "Sumesh",
   "schoolName": "Virat Kohli International School",
-  "attendanceToday": "present",
+  "studentClass": "8 B",
+  "attendanceToday": "present" ,
   "busTiming": {
     "minutesAway": 5,
     "direction": "toSchool",
@@ -210,6 +211,79 @@
       "status": "Paid"
     }
   ],
-  "schoolAccountDetails": "Account No: 123456789, Bank: ABC Bank, IFSC: ABCD0123456"
+  "schoolAccountDetails": "Account No: 123456789, Bank: ABC Bank, IFSC: ABCD0123456",
+
+  "timetable":
+  {
+    "today": [
+      {
+        "id": 1,
+        "time": "09:00",
+        "name": "Mathematics Lecture",
+        "details": "Chapter 5: Integration",
+        "type": "class",
+        "duration": 120
+      },
+      {
+        "id": 2,
+        "time": "11:00",
+        "name": "Physics Test",
+        "details": "Electromagnetism",
+        "type": "test",
+        "duration": 90
+      },
+      {
+        "id": 3,
+        "time": "14:00",
+        "name": "Chemistry Practical",
+        "details": "Experiment 3: Titration",
+        "type": "class",
+        "duration": 120
+      },
+      {
+        "id": 4,
+        "time": "16:00",
+        "name": "School Event",
+        "details": "Guest Lecture on Quantum Mechanics",
+        "type": "event",
+        "duration": 60
+      }
+    ],
+    "tomorrow": [
+      {
+        "id": 5,
+        "time": "08:00",
+        "name": "English Literature Lecture",
+        "details": "Shakespearean Drama",
+        "type": "class",
+        "duration": 90
+      },
+      {
+        "id": 6,
+        "time": "10:00",
+        "name": "Biology Test",
+        "details": "Human Anatomy",
+        "type": "test",
+        "duration": 60
+      },
+      {
+        "id": 7,
+        "time": "13:00",
+        "name": "Computer Science Lecture",
+        "details": "Introduction to Algorithms",
+        "type": "class",
+        "duration": 120
+      },
+      {
+        "id": 8,
+        "time": "15:00",
+        "name": "Sports Event",
+        "details": "Inter-School Football Match",
+        "type": "event",
+        "duration": 180
+      }
+    ]
+  }
+
 
 }
