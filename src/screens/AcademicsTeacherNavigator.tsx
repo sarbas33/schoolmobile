@@ -16,7 +16,16 @@ const Stack = createStackNavigator();
 
 const AcademicsStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+        screenOptions={{
+                    headerTitle: '',
+                    headerStyle: {
+                      height: 60,
+                      backgroundColor: '#f8f8f8',
+                    },
+                    headerTintColor: '#333',
+                  }}
+    >
       <Stack.Screen name="Academics" component={AcademicsScreen} />
       <Stack.Screen
         name="Attendance"
