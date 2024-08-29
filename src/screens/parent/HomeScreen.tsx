@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useApiData } from '../../context/ApiDataContext';
 
 const HomeScreen = () => {
@@ -37,7 +37,9 @@ const HomeScreen = () => {
   const busMessage =
     busTiming.minutesAway === -1
       ? `Bus not started yet. Expected time of arrival: ${busTiming.eta}`
-      : `Bus is ${busTiming.minutesAway} minutes away, ${busTiming.direction === 'toSchool' ? 'heading to school' : 'coming back from school'}.`;
+      : `Bus is ${busTiming.minutesAway} minutes away, ${
+          busTiming.direction === 'toSchool' ? 'heading to school' : 'coming back from school'
+        }.`;
 
   // Navigate to different screens
   const navigateToScreen = (screen) => {
@@ -50,7 +52,9 @@ const HomeScreen = () => {
         <Image source={require('../../assets/school-icon.jpg')} style={styles.schoolIcon} />
         <Text style={styles.schoolName}>{schoolName}</Text>
       </View>
-      <Text style={styles.studentDetails}>{studentName} - {studentClass}</Text>
+      <Text style={styles.studentDetails}>
+        {studentName} - {studentClass}
+      </Text>
       <View style={[styles.card, { backgroundColor }]}>
         <Text style={styles.attendanceText}>{attendanceMessage}</Text>
       </View>
@@ -60,54 +64,35 @@ const HomeScreen = () => {
 
       {/* Navigation Options with Ionicons in a Grid Layout */}
       <View style={styles.navigationContainer}>
-        <TouchableOpacity
-          style={styles.navOption}
-          onPress={() => navigateToScreen('Timetable')}
-        >
+        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Timetable')}>
           <Ionicons name="calendar-outline" size={32} color="blue" />
           <Text style={styles.navText}>Timetable</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navOption}
-          onPress={() => navigateToScreen('BusTracking')}
-        >
+        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('BusTracking')}>
           <Ionicons name="bus-outline" size={32} color="blue" />
           <Text style={styles.navText}>Bus Tracking</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navOption}
-          onPress={() => navigateToScreen('Announcements')}
-        >
+        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Announcements')}>
           <Ionicons name="megaphone-outline" size={32} color="blue" />
           <Text style={styles.navText}>Announcements</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navOption}
-          onPress={() => navigateToScreen('Attendance')}
-        >
+        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Attendance')}>
           <Ionicons name="checkmark-done-outline" size={32} color="blue" />
           <Text style={styles.navText}>Attendance</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navOption}
-          onPress={() => navigateToScreen('Fees')}
-        >
+        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Fees')}>
           <Ionicons name="wallet-outline" size={32} color="blue" />
           <Text style={styles.navText}>Fees</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navOption}
-          onPress={() => navigateToScreen('Quiz')}
-        >
+        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Quiz')}>
           <Ionicons name="document-text-outline" size={32} color="blue" />
           <Text style={styles.navText}>Quiz</Text>
         </TouchableOpacity>
-
       </View>
     </View>
   );

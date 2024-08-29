@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './parent/HomeScreen';
+import HomeParentNavigator from './HomeParentNavigator';
 import AcademicsParentNavigator from './AcademicsParentNavigator';
 import FeesParentNavigator from './FeesParentNavigator';
 import AttendanceScreen from './parent/AttendanceScreen';
@@ -44,7 +45,7 @@ const ParentHomeScreen = () => {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeParentNavigator} />
       <Tab.Screen name="Academics" component={AcademicsParentNavigator} />
       <Tab.Screen name="Fees" component={FeesParentNavigator} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
