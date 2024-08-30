@@ -3,33 +3,38 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = ({ navigation }) => {
-  const [mobileOrEmail, setMobileOrEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const [isOtpSent, setIsOtpSent] = useState(false);
+const LoginScreen = ({ navigation, route }) => {
+  const { onLoginSuccess } = route.params;
+  const [schoolId, setSchoolId] = useState('');
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const handleSendOtp = async () => {
-    // Send OTP request
+  const handleLogin = async () => {
+    setIsLoggingIn(true);
     try {
-      const response = await axios.post('API_URL/send-otp', { mobileOrEmail });
+      const response = await axios.post('https://erpcollege.free.beeceptor.com/login', {
+        schoolId,
+        userId,
+        password,
+      });
       if (response.data.success) {
-        setIsOtpSent(true);
+        await AsyncStorage.setItem('userType', response.data.userType); // Store user type
+        await AsyncStorage.setItem('schoolName', response.data.schoolName);
+        await AsyncStorage.setItem('studentName', response.data.studentName);
+        await AsyncStorage.setItem('studentClass', response.data.studentClass);
+        await AsyncStorage.setItem('attendanceSubjectWise', JSON.stringify(response.data.attendanceSubjectWise));
+
+        // Update the userType in AppNavigator
+        onLoginSuccess(response.data.userType);
+      } else {
+        alert('Login failed: ' + response.data.message);
       }
     } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    // Verify OTP request
-    try {
-      const response = await axios.post('API_URL/verify-otp', { mobileOrEmail, otp });
-      if (response.data.success) {
-        await AsyncStorage.setItem('userType', response.data.userType);
-        navigation.navigate('Home');
-      }
-    } catch (error) {
-      console.error(error);
+      console.error('Login error:', error);
+      alert('An error occurred during login.');
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -38,21 +43,27 @@ const LoginScreen = ({ navigation }) => {
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="Mobile Number or Email"
-        value={mobileOrEmail}
-        onChangeText={setMobileOrEmail}
+        placeholder="School ID"
+        value={schoolId}
+        onChangeText={setSchoolId}
       />
-      {isOtpSent && (
-        <TextInput
-          style={styles.input}
-          placeholder="OTP"
-          value={otp}
-          onChangeText={setOtp}
-        />
-      )}
+      <TextInput
+        style={styles.input}
+        placeholder="User ID"
+        value={userId}
+        onChangeText={setUserId}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
       <Button
-        title={isOtpSent ? "Verify OTP" : "Send OTP"}
-        onPress={isOtpSent ? handleVerifyOtp : handleSendOtp}
+        title={isLoggingIn ? 'Logging In...' : 'Login'}
+        onPress={handleLogin}
+        disabled={isLoggingIn}
       />
     </View>
   );
