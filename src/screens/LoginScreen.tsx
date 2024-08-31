@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,21 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is already logged in
+    const checkLoginStatus = async () => {
+      const userType = await AsyncStorage.getItem('userType');
+      if (userType) {
+        // If the user is already logged in, navigate to the AppNavigator
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'App' }],
+        });
+      }
+    };
+    checkLoginStatus();
+  }, []);
 
   const handleLogin = async () => {
     setIsLoggingIn(true);
