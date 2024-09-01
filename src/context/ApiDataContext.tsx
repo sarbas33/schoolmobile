@@ -41,6 +41,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   const [studentClass, setStudentClass] = useState<any[]>([]);
   const [busTiming, setBusTiming] = useState<any[]>([]);
   const [schoolName, setSchoolName] = useState<any[]>([]);
+  const [announcements, setAnnouncements] = useState<any[]>([]);
   const [schoolAccountDetails, setSchoolAccountDetails] = useState<any[]>([]);
 
   const refetchData = async () => {
@@ -61,6 +62,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
       setBusTiming(fetchedData.busTiming);
       setSchoolName(fetchedData.schoolName);
       setFees(fetchedData.fees);
+      setAnnouncements(fetchedData.announcements);
       setSchoolAccountDetails(fetchedData.schoolAccountDetails);
     } catch (err) {
       setError('Failed to fetch data');
@@ -74,7 +76,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ApiDataContext.Provider value={{ data, loading, error, grades, schoolAccountDetails, fees, studentName, studentClass, schoolName, attendanceToday, busTiming, quizzes, timetable, assignments, attendanceSubject, tests, refetchData }}>
+    <ApiDataContext.Provider value={{ data, loading, error, grades, schoolAccountDetails, announcements, fees, studentName, studentClass, schoolName, attendanceToday, busTiming, quizzes, timetable, assignments, attendanceSubject, tests, refetchData }}>
       {children}
     </ApiDataContext.Provider>
   );

@@ -7,6 +7,7 @@ import HomeScreen from '../screens/parent/HomeScreen';
 import ScheduleScreen from '../screens/parent/ScheduleScreen';
 import BusTrackingScreen from '../screens/parent/BusTrackingScreen';
 import AnnouncementsScreen from '../screens/parent/AnnouncementsScreen';
+import AnnouncementDetailScreen from '../screens/parent/AnnouncementDetailScreen';
 import AttendanceScreen from '../screens/parent/AttendanceScreen';
 import FeesScreen from '../screens/parent/FeesScreen';
 import QuizScreen from '../screens/parent/QuizScreen';
@@ -69,6 +70,8 @@ const HomeStackNavigator = () => {
         <Stack.Screen name="Timetable" component={ScheduleScreen} />
         <Stack.Screen name="BusTracking" component={BusTrackingScreen} />
         <Stack.Screen name="Announcements" component={AnnouncementsScreen} />
+        <Stack.Screen name="AnnouncementDetail" component={AnnouncementDetailScreen} 
+        options={{ headerTitle: 'Announcement' }} />
         <Stack.Screen name="Attendance" component={AttendanceScreen} />
         <Stack.Screen name="Fees" component={FeesScreen} />
         <Stack.Screen name="Quiz" component={QuizScreen} />
