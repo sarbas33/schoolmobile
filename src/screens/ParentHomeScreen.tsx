@@ -1,12 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeScreen from './parent/HomeScreen';
 import HomeParentNavigator from './HomeParentNavigator';
 import AcademicsParentNavigator from './AcademicsParentNavigator';
 import FeesParentNavigator from './FeesParentNavigator';
-import AttendanceScreen from './parent/AttendanceScreen';
-import ProfileScreen from './parent/ProfileScreen';
+import ProfileParentNavigator from './ProfileParentNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,8 +23,6 @@ const ParentHomeScreen = () => {
             iconName = focused ? 'book' : 'book-outline';
           } else if (route.name === 'Fees') {
             iconName = focused ? 'card' : 'card-outline';
-          } else if (route.name === 'Attendance') {
-            iconName = focused ? 'checkmark-circle' : 'checkmark-circle-outline';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
           }
@@ -48,7 +44,7 @@ const ParentHomeScreen = () => {
       <Tab.Screen name="Home" component={HomeParentNavigator} />
       <Tab.Screen name="Academics" component={AcademicsParentNavigator} />
       <Tab.Screen name="Fees" component={FeesParentNavigator} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileParentNavigator} />
     </Tab.Navigator>
   );
 };

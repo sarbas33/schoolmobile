@@ -46,49 +46,45 @@ const ProfileScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Profile</Text>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Ionicons name="log-out-outline" size={24} color={Colors.headerTint} />
-        </TouchableOpacity>
+    <ScrollView style={styles.container}>
+      <View style={styles.profileContainer}>
+        {studentData.profilePhoto ? (
+          <Image source={{ uri: studentData.profilePhoto }} style={styles.profilePhoto} />
+        ) : (
+          <View style={styles.defaultAvatarContainer}>
+            <Ionicons name="person-circle-outline" size={70} color="#fff" />
+          </View>
+        )}
+        <Text style={styles.studentName}>{studentData.studentName}</Text>
+        <Text style={styles.schoolName}>{studentData.schoolName}</Text>
       </View>
-      <ScrollView>
-        <View style={styles.profileContainer}>
-          {studentData.profilePhoto ? (
-            <Image source={{ uri: studentData.profilePhoto }} style={styles.profilePhoto} />
-          ) : (
-            <View style={styles.defaultAvatarContainer}>
-              <Ionicons name="person-circle-outline" size={70} color="#fff" />
-            </View>
-          )}
-          <Text style={styles.studentName}>{studentData.studentName}</Text>
-          <Text style={styles.schoolName}>{studentData.schoolName}</Text>
-        </View>
 
-        <View style={styles.detailsContainer}>
-          {[
-            { label: 'Student ID', value: studentData.studentId, icon: 'id-card-outline' },
-            { label: 'Batch', value: studentData.batch, icon: 'people-outline' },
-            { label: 'Class', value: studentData.studentClass, icon: 'school-outline' },
-            { label: 'Parent Name', value: studentData.parentName, icon: 'person-outline' },
-            { label: 'Address', value: studentData.address, icon: 'home-outline' },
-            { label: 'Mobile Number', value: studentData.mobileNumber, icon: 'call-outline' },
-            { label: 'Email', value: studentData.email, icon: 'mail-outline' },
-          ].map((detail, index) => (
-            <View key={index} style={styles.detailRow}>
-              <View style={styles.iconContainer}>
-                <Ionicons name={detail.icon} size={20} color={Colors.primary} />
-              </View>
-              <View style={styles.detailTextContainer}>
-                <Text style={styles.detailLabel}>{detail.label}</Text>
-                <Text style={styles.detailValue}>{detail.value}</Text>
-              </View>
+      <View style={styles.detailsContainer}>
+        {[
+          { label: 'Student ID', value: studentData.studentId, icon: 'id-card-outline' },
+          { label: 'Batch', value: studentData.batch, icon: 'people-outline' },
+          { label: 'Class', value: studentData.studentClass, icon: 'school-outline' },
+          { label: 'Parent Name', value: studentData.parentName, icon: 'person-outline' },
+          { label: 'Address', value: studentData.address, icon: 'home-outline' },
+          { label: 'Mobile Number', value: studentData.mobileNumber, icon: 'call-outline' },
+          { label: 'Email', value: studentData.email, icon: 'mail-outline' },
+        ].map((detail, index) => (
+          <View key={index} style={styles.detailRow}>
+            <View style={styles.iconContainer}>
+              <Ionicons name={detail.icon} size={20} color={Colors.primary} />
             </View>
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+            <View style={styles.detailTextContainer}>
+              <Text style={styles.detailLabel}>{detail.label}</Text>
+              <Text style={styles.detailValue}>{detail.value}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
@@ -96,24 +92,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.screenBackground,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Colors.headerBackground,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  headerTitle: {
-    fontSize: 18,
-    color: Colors.headerTint,
-    fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'Roboto', // Use appropriate font
-  },
-  logoutButton: {
-    padding: 6,
   },
   profileContainer: {
     alignItems: 'center',
@@ -186,6 +164,14 @@ const styles = StyleSheet.create({
   detailValue: {
     fontSize: 14,
     color: Colors.text,
+  },
+  logoutButton: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  logoutText: {
+    fontSize: 16,
+    color: '#e74c3c', // Red color for logout text
   },
 });
 
