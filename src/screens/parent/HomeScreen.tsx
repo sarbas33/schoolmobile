@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useApiData } from '../../context/ApiDataContext';
+import { Colors } from '../../constants/Colors';
 
 const HomeScreen = () => {
-  const { attendanceToday, busTiming, studentName, schoolName, studentClass } = useApiData();
+  const { attendanceToday, busTiming, studentName, studentClass } = useApiData();
   const navigation = useNavigation();
 
   let attendanceMessage;
@@ -48,10 +49,6 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.schoolHeader}>
-        <Image source={require('../../assets/school-icon.jpg')} style={styles.schoolIcon} />
-        <Text style={styles.schoolName}>{schoolName}</Text>
-      </View>
       <Text style={styles.studentDetails}>
         {studentName} - {studentClass}
       </Text>
@@ -63,35 +60,47 @@ const HomeScreen = () => {
       </View>
 
       {/* Navigation Options with Ionicons in a Grid Layout */}
-      <View style={styles.navigationContainer}>
-        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Timetable')}>
-          <Ionicons name="calendar-outline" size={32} color="blue" />
-          <Text style={styles.navText}>Timetable</Text>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Timetable')}>
+          <View style={styles.iconBackground}>
+            <Ionicons name="calendar-outline" size={20} color="#fff" />
+          </View>
+          <Text style={styles.iconText}>Timetable</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('BusTracking')}>
-          <Ionicons name="bus-outline" size={32} color="blue" />
-          <Text style={styles.navText}>Bus Tracking</Text>
+        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('BusTracking')}>
+          <View style={styles.iconBackground}>
+            <Ionicons name="bus-outline" size={20} color="#fff" />
+          </View>
+          <Text style={styles.iconText}>Bus Tracking</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Announcements')}>
-          <Ionicons name="megaphone-outline" size={32} color="blue" />
-          <Text style={styles.navText}>Announcements</Text>
+        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Announcements')}>
+          <View style={styles.iconBackground}>
+            <Ionicons name="megaphone-outline" size={20} color="#fff" />
+          </View>
+          <Text style={styles.iconText}>Announcements</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Attendance')}>
-          <Ionicons name="checkmark-done-outline" size={32} color="blue" />
-          <Text style={styles.navText}>Attendance</Text>
+        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Attendance')}>
+          <View style={styles.iconBackground}>
+            <Ionicons name="checkmark-done-outline" size={20} color="#fff" />
+          </View>
+          <Text style={styles.iconText}>Attendance</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Fees')}>
-          <Ionicons name="wallet-outline" size={32} color="blue" />
-          <Text style={styles.navText}>Fees</Text>
+        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Fees')}>
+          <View style={styles.iconBackground}>
+            <Ionicons name="wallet-outline" size={20} color="#fff" />
+          </View>
+          <Text style={styles.iconText}>Fees</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navOption} onPress={() => navigateToScreen('Quiz')}>
-          <Ionicons name="document-text-outline" size={32} color="blue" />
-          <Text style={styles.navText}>Quiz</Text>
+        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Quiz')}>
+          <View style={styles.iconBackground}>
+            <Ionicons name="document-text-outline" size={20} color="#fff" />
+          </View>
+          <Text style={styles.iconText}>Quiz</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -102,24 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f8f8f8',
-  },
-  schoolHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 5,
-  },
-  schoolIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20, // Make the icon round
-    marginRight: 10,
-  },
-  schoolName: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'left',
+    backgroundColor: Colors.screenBackground,
   },
   studentDetails: {
     fontSize: 18,
@@ -144,21 +136,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-  navigationContainer: {
+  iconContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginTop: 20,
   },
-  navOption: {
-    width: '30%', // Each icon takes up 30% of the width to fit three icons per row
+  icon: {
+    width: '30%',
     alignItems: 'center',
     marginBottom: 20,
   },
-  navText: {
-    marginTop: 5,
+  iconBackground: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#2c3e50', // Dark grey color
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  iconText: {
+    color: Colors.text,
     fontSize: 12,
-    color: '#000',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 });
