@@ -28,7 +28,7 @@ const FeePaymentScreen: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Payment for {fee.name}</Text>
       <Text style={styles.details}>
-        Amount: ${fee.amount} | Due Date: {new Date(fee.dueDate).toLocaleDateString()}
+        Amount: ₹{fee.amount} | Due Date: {new Date(fee.dueDate).toLocaleDateString()}
       </Text>
       <Text style={styles.details}>Account Details: {schoolAccountDetails}</Text>
       <TouchableOpacity style={styles.payButton} onPress={handlePayment}>
