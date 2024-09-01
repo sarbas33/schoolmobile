@@ -39,6 +39,7 @@ const LoginScreen = ({ navigation }) => {
         await AsyncStorage.setItem('studentClass', response.data.studentClass);
         await AsyncStorage.setItem('attendanceSubjectWise', JSON.stringify(response.data.attendanceSubjectWise));
 
+        await AsyncStorage.setItem('studentData', JSON.stringify(response.data));
         // Navigate to the main app after successful login
         navigation.reset({
           index: 0,

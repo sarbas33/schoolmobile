@@ -7,6 +7,8 @@ import AnnouncementsScreen from '../screens/parent/AnnouncementsScreen';
 import AttendanceScreen from '../screens/parent/AttendanceScreen';
 import FeesScreen from '../screens/parent/FeesScreen';
 import QuizScreen from '../screens/parent/QuizScreen';
+import { Colors } from '../constants/Colors';
+import { Platform } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -14,18 +16,23 @@ const HomeStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTitle: '',
         headerStyle: {
-          height: 60,
-          backgroundColor: '#f8f8f8',
+          backgroundColor: Colors.headerBackground,
+          elevation: 0, // Remove shadow on Android
+          shadowOpacity: 0, // Remove shadow on iOS
         },
-        headerTintColor: '#333',
+        headerTintColor: Colors.headerTint,
+        headerTitleStyle: {
+          fontSize: 18,
+          fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'Roboto', // Use appropriate font
+        },
+        headerShown: true,
       }}
     >
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ headerShown: false }} // Hide header for HomeScreen
+        options={{ headerShown: false }}
       />
       <Stack.Screen name="Timetable" component={ScheduleScreen} />
       <Stack.Screen name="BusTracking" component={BusTrackingScreen} />

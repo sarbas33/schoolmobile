@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
 
@@ -11,36 +11,40 @@ const FeesScreen: React.FC = () => {
     navigation.navigate('FeePayment', { feeId });
   };
 
+  const renderFeeItem = ({ item: fee }) => (
+    <TouchableOpacity
+      style={[styles.card, fee.status === 'Not Paid' && styles.notPaidCard]}
+      onPress={() => navigateToFeePayment(fee.id)}
+    >
+      <View style={styles.cardContent}>
+        <Text style={styles.feeName}>{fee.name}</Text>
+        <Text style={[styles.feeStatus, fee.status === 'Paid' ? styles.paidStatus : styles.notPaidStatus]}>
+          {fee.status}
+        </Text>
+      </View>
+      <View style={styles.feeInfoContainer}>
+        <Text style={styles.feeInfo}>Due: {new Date(fee.dueDate).toLocaleDateString()}</Text>
+        <Text style={styles.feeInfo}>Amount: ${fee.amount}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#3498db" />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Fees</Text>
-      <View style={styles.cardsContainer}>
-        {fees.map(fee => (
-          <TouchableOpacity
-            key={fee.id}
-            style={[styles.card, fee.status === 'Not Paid' && styles.notPaidCard]}
-            onPress={() => navigateToFeePayment(fee.id)}
-          >
-            <View style={styles.textContainer}>
-              <Text style={styles.feeName}>{fee.name}</Text>
-              <Text style={styles.feeDetails}>
-                {`Due: ${new Date(fee.dueDate).toLocaleDateString()} | Amount: $${fee.amount}`}
-              </Text>
-              <Text style={[styles.feeStatus, fee.status === 'Paid' && styles.paidStatus]}>
-                {fee.status}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <FlatList
+        data={fees}
+        renderItem={renderFeeItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
 };
@@ -48,57 +52,69 @@ const FeesScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f8f8f8', // Matched with other screens
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  cardsContainer: {
-    flexDirection: 'column',
+  listContainer: {
+    paddingTop: 12,
+    paddingBottom: 12,
   },
   card: {
     backgroundColor: '#ffffff',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    marginBottom: 10,
     borderRadius: 8,
+    marginHorizontal: 12,
+    marginBottom: 12,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   notPaidCard: {
-    backgroundColor: '#ffe6e6',
+    borderLeftWidth: 3,
+    borderLeftColor: '#e74c3c',
   },
-  textContainer: {
-    flexDirection: 'column',
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ecf0f1',
   },
   feeName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  feeDetails: {
     fontSize: 14,
-    marginTop: 5,
-    color: '#555',
+    fontWeight: 'bold',
+    color: '#34495e',
   },
   feeStatus: {
-    fontSize: 14,
-    marginTop: 5,
+    fontSize: 12,
     fontWeight: 'bold',
+    paddingVertical: 2,
+    paddingHorizontal: 6,
+    borderRadius: 10,
   },
   paidStatus: {
-    color: 'green',
+    color: '#27ae60',
+    backgroundColor: '#e8f8f5',
+  },
+  notPaidStatus: {
+    color: '#e74c3c',
+    backgroundColor: '#fdedec',
+  },
+  feeInfoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 8,
+  },
+  feeInfo: {
+    fontSize: 12,
+    color: '#7f8c8d',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#e6eaf0', // Matched with other screens
   },
 });
 

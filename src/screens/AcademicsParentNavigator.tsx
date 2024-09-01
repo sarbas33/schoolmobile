@@ -15,78 +15,43 @@ import QuizScreen from '../screens/parent/QuizScreen';
 import QuizQuestionScreen from '../screens/parent/QuizQuestionScreen';
 import QuizCompletionScreen from '../screens/parent/QuizCompletionScreen';
 import QuizReviewScreen from '../screens/parent/QuizReviewScreen';
+import { Colors } from '../constants/Colors';
+import { Platform } from 'react-native';
 
 const Stack = createStackNavigator();
 
 const AcademicsStackNavigator = () => {
   return (
     <Stack.Navigator
-        screenOptions={{
-            headerTitle: '',
-            headerStyle: {
-              height: 60,
-              backgroundColor: '#f8f8f8',
-            },
-            headerTintColor: '#333',
-          }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors.headerBackground,
+          elevation: 0, // Remove shadow on Android
+          shadowOpacity: 0, // Remove shadow on iOS
+        },
+        headerTintColor: Colors.headerTint,
+        headerTitleStyle: {
+          fontSize: 18,
+          fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'Roboto', // Use appropriate font
+        },
+        headerShown: true,
+      }}
     >
       <Stack.Screen name="Academics" component={AcademicsScreen} />
-      <Stack.Screen
-        name="Attendance"
-        component={AttendanceScreen}
-      />
-      <Stack.Screen
-              name="AttendanceRecord"
-              component={AttendanceRecordScreen}
-            />
-      <Stack.Screen
-               name="AttendanceCollege"
-               component={AttendanceCollegeScreen}
-             />
-      <Stack.Screen
-                name="AttendanceCollegeRecord"
-                component={AttendanceCollegeRecordScreen}
-              />
-      <Stack.Screen
-               name="Grades"
-               component={GradesScreen}
-             />
-      <Stack.Screen
-                name="GradesRecord"
-                component={GradesRecordScreen}
-              />
-      <Stack.Screen
-               name="Tests"
-               component={TestsScreen}
-             />
-      <Stack.Screen
-        name="Assignments"
-        component={AssignmentsScreen}
-      />
-      <Stack.Screen
-         name="AssignmentRecord"
-         component={AssignmentRecordScreen}
-      />
-      <Stack.Screen
-        name="Schedule"
-        component={ScheduleScreen}
-      />
-      <Stack.Screen
-        name="Quiz"
-        component={QuizScreen}
-      />
-      <Stack.Screen
-        name="QuizQuestion"
-        component={QuizQuestionScreen}
-      />
-      <Stack.Screen
-         name="QuizCompletion"
-         component={QuizCompletionScreen}
-      />
-      <Stack.Screen
-          name="QuizReview"
-          component={QuizReviewScreen}
-      />
+      <Stack.Screen name="Attendance" component={AttendanceScreen} />
+      <Stack.Screen name="AttendanceRecord" component={AttendanceRecordScreen} />
+      <Stack.Screen name="AttendanceCollege" component={AttendanceCollegeScreen} />
+      <Stack.Screen name="AttendanceCollegeRecord" component={AttendanceCollegeRecordScreen} />
+      <Stack.Screen name="Grades" component={GradesScreen} />
+      <Stack.Screen name="GradesRecord" component={GradesRecordScreen} />
+      <Stack.Screen name="Tests" component={TestsScreen} />
+      <Stack.Screen name="Assignments" component={AssignmentsScreen} />
+      <Stack.Screen name="AssignmentRecord" component={AssignmentRecordScreen} />
+      <Stack.Screen name="Schedule" component={ScheduleScreen} />
+      <Stack.Screen name="Quiz" component={QuizScreen} />
+      <Stack.Screen name="QuizQuestion" component={QuizQuestionScreen} />
+      <Stack.Screen name="QuizCompletion" component={QuizCompletionScreen} />
+      <Stack.Screen name="QuizReview" component={QuizReviewScreen} />
     </Stack.Navigator>
   );
 };

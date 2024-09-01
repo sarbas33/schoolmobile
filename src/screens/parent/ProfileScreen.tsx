@@ -1,63 +1,93 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Alert, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../../constants/Colors';
 
 const ProfileScreen = () => {
-  const [studentName, setStudentName] = useState<string | null>(null);
-  const [schoolName, setSchoolName] = useState<string | null>(null);
-  const [studentClass, setStudentClass] = useState<string | null>(null);
+  const [studentData, setStudentData] = useState({});
   const navigation = useNavigation();
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const storedStudentName = await AsyncStorage.getItem('studentName');
-        const storedSchoolName = await AsyncStorage.getItem('schoolName');
-        const storedStudentClass = await AsyncStorage.getItem('studentClass');
-
-        setStudentName(storedStudentName);
-        setSchoolName(storedSchoolName);
-        setStudentClass(storedStudentClass);
+        const data = await AsyncStorage.getItem('studentData');
+        if (data) {
+          setStudentData(JSON.parse(data));
+        }
       } catch (error) {
         console.error('Failed to load data', error);
       }
     };
-
     loadData();
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await AsyncStorage.clear();
-      Alert.alert('Logged out', 'You have been logged out successfully.');
-      navigation.reset({
+    Alert.alert(
+      'Confirm Logout',
+      'Are you sure you want to log out?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: async () => {
+            await AsyncStorage.clear();
+            navigation.reset({
               index: 0,
               routes: [{ name: 'Auth' }],
             });
-    } catch (error) {
-      console.error('Failed to logout', error);
-    }
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.detailLabel}>School:</Text>
-        <Text style={styles.detailValue}>{schoolName}</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Profile</Text>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Ionicons name="log-out-outline" size={24} color={Colors.headerTint} />
+        </TouchableOpacity>
       </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.detailLabel}>Student Name:</Text>
-        <Text style={styles.detailValue}>{studentName}</Text>
-      </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.detailLabel}>Class:</Text>
-        <Text style={styles.detailValue}>{studentClass}</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Logout" onPress={handleLogout} color="#d9534f" />
-      </View>
+      <ScrollView>
+        <View style={styles.profileContainer}>
+          {studentData.profilePhoto ? (
+            <Image source={{ uri: studentData.profilePhoto }} style={styles.profilePhoto} />
+          ) : (
+            <View style={styles.defaultAvatarContainer}>
+              <Ionicons name="person-circle-outline" size={70} color="#fff" />
+            </View>
+          )}
+          <Text style={styles.studentName}>{studentData.studentName}</Text>
+          <Text style={styles.schoolName}>{studentData.schoolName}</Text>
+        </View>
+
+        <View style={styles.detailsContainer}>
+          {[
+            { label: 'Student ID', value: studentData.studentId, icon: 'id-card-outline' },
+            { label: 'Batch', value: studentData.batch, icon: 'people-outline' },
+            { label: 'Class', value: studentData.studentClass, icon: 'school-outline' },
+            { label: 'Parent Name', value: studentData.parentName, icon: 'person-outline' },
+            { label: 'Address', value: studentData.address, icon: 'home-outline' },
+            { label: 'Mobile Number', value: studentData.mobileNumber, icon: 'call-outline' },
+            { label: 'Email', value: studentData.email, icon: 'mail-outline' },
+          ].map((detail, index) => (
+            <View key={index} style={styles.detailRow}>
+              <View style={styles.iconContainer}>
+                <Ionicons name={detail.icon} size={20} color={Colors.primary} />
+              </View>
+              <View style={styles.detailTextContainer}>
+                <Text style={styles.detailLabel}>{detail.label}</Text>
+                <Text style={styles.detailValue}>{detail.value}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -65,31 +95,97 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.screenBackground,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: Colors.headerBackground,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
   },
-  detailsContainer: {
-    marginBottom: 15,
-  },
-  detailLabel: {
+  headerTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    color: Colors.headerTint,
+    fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'Roboto', // Use appropriate font
   },
-  detailValue: {
-    fontSize: 18,
-    color: '#555',
+  logoutButton: {
+    padding: 6,
   },
-  buttonContainer: {
-    marginTop: 40,
+  profileContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+    backgroundColor: Colors.white,
+    paddingVertical: 20,
+    marginHorizontal: 16,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  profilePhoto: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 12,
+  },
+  defaultAvatarContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: Colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 12,
+  },
+  studentName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.text,
+    marginBottom: 2,
+  },
+  schoolName: {
+    fontSize: 14,
+    color: Colors.textLight,
+  },
+  detailsContainer: {
+    marginHorizontal: 16,
+    marginBottom: 20,
+    backgroundColor: Colors.white,
+    borderRadius: 10,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  iconContainer: {
+    marginRight: 12,
+  },
+  detailTextContainer: {
+    flex: 1,
+  },
+  detailLabel: {
+    fontSize: 12,
+    color: Colors.textLight,
+    marginBottom: 1,
+  },
+  detailValue: {
+    fontSize: 14,
+    color: Colors.text,
   },
 });
 
