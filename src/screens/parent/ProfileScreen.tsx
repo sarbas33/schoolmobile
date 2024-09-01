@@ -52,7 +52,7 @@ const ProfileScreen = () => {
           <Image source={{ uri: studentData.profilePhoto }} style={styles.profilePhoto} />
         ) : (
           <View style={styles.defaultAvatarContainer}>
-            <Ionicons name="person-circle-outline" size={70} color="#fff" />
+            <Ionicons name="person-circle-outline" size={70} color={Colors.white} />
           </View>
         )}
         <Text style={styles.studentName}>{studentData.studentName}</Text>
@@ -71,7 +71,7 @@ const ProfileScreen = () => {
         ].map((detail, index) => (
           <View key={index} style={styles.detailRow}>
             <View style={styles.iconContainer}>
-              <Ionicons name={detail.icon} size={20} color={Colors.primary} />
+              <Ionicons name={detail.icon} size={20} color={Colors.headerTint} />
             </View>
             <View style={styles.detailTextContainer}>
               <Text style={styles.detailLabel}>{detail.label}</Text>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.headerTint,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
@@ -152,17 +152,21 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginRight: 12,
+    backgroundColor: Colors.headerBackground,
+    borderRadius: 20,
+    padding: 8,
   },
   detailTextContainer: {
     flex: 1,
   },
   detailLabel: {
-    fontSize: 12,
+    fontSize: 13,
     color: Colors.textLight,
     marginBottom: 1,
   },
   detailValue: {
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: 'bold',
     color: Colors.text,
   },
   logoutButton: {
