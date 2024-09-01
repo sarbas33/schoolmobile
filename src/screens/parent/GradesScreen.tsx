@@ -8,7 +8,7 @@ const GradesScreen: React.FC = () => {
   const navigation = useNavigation();
 
   const navigateToGradeRecord = (subject: string) => {
-    navigation.navigate('GradeRecord', { subject });
+    navigation.navigate('GradesRecord', { subject });
   };
 
   if (loading) {
