@@ -1,63 +1,77 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../../constants/Colors';
+
+type TestsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Tests'>;
 
 const TestsScreen: React.FC = () => {
   const { tests, loading } = useApiData();
-  const navigation = useNavigation();
+  const navigation = useNavigation<TestsScreenNavigationProp>();
 
-  // Helper function to convert time string to a Date object for sorting
-  const parseTime = (timeString) => {
-    const [time, modifier] = timeString.split(' ');
-    let [hours, minutes] = time.split(':');
+  const sortedTests = useMemo(() => {
+    const now = new Date();
+    const upcoming = tests.filter(test => new Date(test.date) >= now);
+    const completed = tests.filter(test => new Date(test.date) < now);
 
-    if (modifier === 'PM' && hours !== '12') {
-      hours = parseInt(hours, 10) + 12;
-    }
+    upcoming.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    completed.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    if (modifier === 'AM' && hours === '12') {
-      hours = '00';
-    }
+    return [...upcoming, ...completed];
+  }, [tests]);
 
-    return new Date(`1970-01-01T${hours}:${minutes}:00`);
+  const navigateToTestDetails = (testId: string) => {
+    //navigation.navigate('TestDetails', { testId });
   };
 
-  // Filter upcoming tests and sort them by time
-  const upcomingTests = tests
-    .filter(test => test.status === 'upcoming')
-    .sort((a, b) => parseTime(b.time) - parseTime(a.time));
+  const renderTestItem = ({ item: test }) => {
+    const testDate = new Date(test.date);
+    const isUpcoming = testDate >= new Date();
 
-  const navigateToTestDetail = (testId) => {
-    navigation.navigate('TestDetail', { id: testId });
+    return (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => navigateToTestDetails(test.id)}
+      >
+        <View style={styles.iconContainer}>
+          <Ionicons 
+            name={isUpcoming ? "time-outline" : "checkmark-circle-outline"} 
+            size={20} 
+            color={Colors.headerTint} 
+          />
+        </View>
+        <View style={styles.cardContent}>
+          <Text style={styles.testName}>{test.subject}</Text>
+          <Text style={styles.testInfo}>Date: {testDate.toLocaleDateString()}</Text>
+          <Text style={styles.testType}>{test.testType}</Text>
+        </View>
+        <View style={styles.scoreContainer}>
+          <Text style={[styles.testStatus, isUpcoming ? styles.upcomingStatus : styles.completedStatus]}>
+            {isUpcoming ? 'Upcoming' : 'Completed'}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color={Colors.headerTint} />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Upcoming Tests</Text>
-      <View style={styles.cardsContainer}>
-        {upcomingTests.map((test) => (
-          <TouchableOpacity
-            key={test.id}
-            style={[
-              styles.card,
-              test.status === 'upcoming' ? styles.upcomingCard : styles.finishedCard,
-            ]}
-            onPress={() => navigateToTestDetail(test.id)}
-          >
-            <Text style={styles.testType}>{test.testType}</Text>
-            <Text style={styles.testDetails}>{`${test.time}, ${test.date}, ${test.subject}`}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <FlatList
+        data={sortedTests}
+        renderItem={renderTestItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
 };
@@ -65,46 +79,72 @@ const TestsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.screenBackground,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  cardsContainer: {
-    flexDirection: 'column',
+  listContainer: {
+    padding: 12,
   },
   card: {
-    backgroundColor: '#ffffff',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    marginBottom: 10,
+    flexDirection: 'row',
+    backgroundColor: Colors.white,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
+    marginBottom: 8,
+    padding: 12,
+    alignItems: 'center',
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  iconContainer: {
+    marginRight: 12,
+    backgroundColor: Colors.headerBackground,
+    borderRadius: 20,
+    padding: 8,
+  },
+  cardContent: {
+    flex: 1,
+  },
+  testName: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: Colors.text,
+    marginBottom: 2,
+  },
+  testInfo: {
+    fontSize: 13,
+    color: Colors.textLight,
+    marginBottom: 2,
   },
   testType: {
-    fontSize: 16,
+    fontSize: 11,
+    color: Colors.textLight,
+    fontStyle: 'italic',
+  },
+  scoreContainer: {
+    alignItems: 'flex-end',
+  },
+  testStatus: {
+    fontSize: 13,
     fontWeight: 'bold',
+    paddingVertical: 2,
+    paddingHorizontal: 6,
+    borderRadius: 8,
   },
-  testDetails: {
-    fontSize: 14,
-    color: '#555',
+  completedStatus: {
+    color: Colors.white,
+    backgroundColor: Colors.headerTint,
   },
-  upcomingCard: {
-    borderLeftWidth: 5,
-    borderLeftColor: 'lime',
+  upcomingStatus: {
+    color: Colors.white,
+    backgroundColor: Colors.textLight,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.screenBackground,
   },
 });
 
