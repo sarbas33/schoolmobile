@@ -82,7 +82,7 @@
       "id": "1",
       "testType": "First Term Examination",
       "time": "10:00 AM",
-      "date": "2024-08-20",
+      "date": "2024-09-20",
       "subject": "Mathematics",
       "status": "upcoming"
     },
@@ -114,7 +114,7 @@
       "id": "5",
       "testType": "Quiz",
       "time": "11:00 AM",
-      "date": "2024-08-18",
+      "date": "2024-09-18",
       "subject": "English",
       "status": "upcoming"
     }
@@ -303,7 +303,20 @@
       "date": "2023-10-10",
       "content": "Our annual Sports Day will be held on October 10th, 2023. Students are encouraged to participate in various sports events and showcase their talents."
     }
-  ]
+  ],
+  "attendance":{
+    "totalClasses": 70,
+    "presentClasses": 50
+  },
+  "attendanceRecord":{
+    "records": [
+      { "id": "1", "date": "2025-07-01", "status": "Present" },
+      { "id": "2", "date": "2025-07-02", "status": "Absent" },
+      { "id": "3", "date": "2025-07-03", "status": "Late" },
+      { "id": "4", "date": "2025-07-04", "status": "Present" },
+      { "id": "5", "date": "2025-07-05", "status": "Absent" }
+    ]
+  }
 
 
 }

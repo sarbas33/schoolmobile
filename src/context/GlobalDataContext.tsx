@@ -11,7 +11,7 @@ const GlobalDataContext = createContext<GlobalDataContextType | undefined>(undef
 
 export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<string>('light');
-  const [isAttendanceSubjectWise, setIsAttendanceSubjectWise] = useState<boolean>(true);
+  const [isAttendanceSubjectWise, setIsAttendanceSubjectWise] = useState<boolean>(false);
 
   return (
     <GlobalDataContext.Provider value={{ theme, setTheme, isAttendanceSubjectWise, setIsAttendanceSubjectWise }}>
