@@ -2,30 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Button, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { PieChart } from 'react-native-chart-kit';
+import { useApiData } from '../../context/ApiDataContext';
 
 const AttendanceScreen = () => {
   const navigation = useNavigation();
-  const [attendanceData, setAttendanceData] = useState<{ totalClasses: number; presentClasses: number } | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // Function to fetch attendance data from the API
-  const fetchAttendanceData = async () => {
-    try {
-      const response = await fetch('https://erpcollege.free.beeceptor.com/attendance');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      setAttendanceData(data);
-    } catch (error) {
-      console.error('Error fetching attendance data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { attendance, loading } = useApiData();
 
   useEffect(() => {
-    fetchAttendanceData();
+
   }, []);
 
   // Navigate to the AttendanceRecord screen
@@ -42,7 +26,7 @@ const AttendanceScreen = () => {
     );
   }
 
-  if (!attendanceData) {
+  if (!attendance) {
     return (
       <View style={styles.container}>
         <Text>Error loading attendance data.</Text>
@@ -51,7 +35,7 @@ const AttendanceScreen = () => {
   }
 
   // Extract attendance data
-  const { totalClasses, presentClasses } = attendanceData;
+  const { totalClasses, presentClasses } = attendance;
   const absentClasses = totalClasses - presentClasses;
   const attendancePercentage = (presentClasses / totalClasses) * 100;
 
