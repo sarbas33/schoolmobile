@@ -7,5 +7,8 @@ export const Colors = {
   text: '#2c3e50',
   textLight: '#7f8c8d',
   border: '#ecf0f1',
+  success: '#4caf50', // Green color for success
+  error: '#f44336', // Red color for error
+  darkGrey: '#34495e', // Darkish grey color for buttons
   // ... other color constants
 };
