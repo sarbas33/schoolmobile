@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
 import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AnnouncementDetailScreen: React.FC = () => {
   const route = useRoute();
@@ -20,37 +22,55 @@ const AnnouncementDetailScreen: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{announcement.title}</Text>
-      <Text style={styles.date}>{announcement.date}</Text>
-      <Text style={styles.content}>{announcement.content}</Text>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Ionicons name="megaphone-outline" size={40} color={Colors.primary} style={styles.icon} />
+          <Text style={styles.title}>{announcement.title}</Text>
+        </View>
+        <Text style={styles.date}>{announcement.date}</Text>
+        <Text style={styles.content}>{announcement.content}</Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    padding: 20,
     backgroundColor: Colors.screenBackground,
   },
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  icon: {
+    marginRight: 16,
+  },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  date: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 20,
-  },
-  content: {
-    fontSize: 16,
+    flex: 1,
+    fontSize: Fonts.size.xlarge,
+    fontWeight: Fonts.weight.bold,
     color: Colors.text,
   },
+  date: {
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
+    marginBottom: 16,
+  },
+  content: {
+    fontSize: Fonts.size.medium,
+    color: Colors.text,
+    lineHeight: 24,
+  },
   errorText: {
-    fontSize: 18,
-    color: 'red',
+    fontSize: Fonts.size.large,
+    color: Colors.error,
     textAlign: 'center',
   },
 });
