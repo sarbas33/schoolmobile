@@ -1,35 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, SafeAreaView, ScrollView } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
 import DocumentPicker from 'react-native-document-picker';
 import axios from 'axios';
+import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const AssignmentRecordScreen = ({ route }) => {
-  const { id } = route.params;
+const AssignmentRecordScreen = () => {
+  const { id } = useRoute().params;
   const [assignment, setAssignment] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchAssignment = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(`https://erpcollege.free.beeceptor.com/assignment/${id}`); // Replace with your actual host URL
-        if (response.status === 200) {
-          setAssignment(response.data.assignment);
-        } else {
-          Alert.alert('Error', 'Failed to fetch assignment details.');
-        }
-      } catch (error) {
-        Alert.alert('Error', 'An error occurred while fetching the assignment.');
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchAssignment();
   }, [id]);
+
+  const fetchAssignment = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`https://erpcollege.free.beeceptor.com/assignment/${id}`);
+      if (response.status === 200) {
+        setAssignment(response.data.assignment);
+      } else {
+        Alert.alert('Error', 'Failed to fetch assignment details.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred while fetching the assignment.');
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const downloadPDF = async () => {
     if (!assignment || !assignment.download_url) {
@@ -105,9 +109,7 @@ const AssignmentRecordScreen = ({ route }) => {
         Alert.alert('Error', 'Failed to upload the assignment.');
       }
     } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        // User canceled the picker
-      } else {
+      if (!DocumentPicker.isCancel(err)) {
         Alert.alert('Error', 'An error occurred while uploading the assignment.');
         console.log(err);
       }
@@ -116,8 +118,92 @@ const AssignmentRecordScreen = ({ route }) => {
     }
   };
 
+  const styles = StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: Colors.screenBackground,
+    },
+    container: {
+      flex: 1,
+      padding: 16,
+    },
+    title: {
+      fontSize: Fonts.size.xlarge,
+      fontWeight: Fonts.weight.bold,
+      color: Colors.text,
+      marginBottom: 8,
+    },
+    subject: {
+      fontSize: Fonts.size.medium,
+      color: Colors.textLight,
+      marginBottom: 4,
+    },
+    dueDate: {
+      fontSize: Fonts.size.medium,
+      color: Colors.textLight,
+      marginBottom: 16,
+    },
+    description: {
+      fontSize: Fonts.size.regular,
+      color: Colors.text,
+      marginBottom: 16,
+    },
+    detailsContainer: {
+      marginBottom: 16,
+    },
+    heading: {
+      fontSize: Fonts.size.large,
+      fontWeight: Fonts.weight.semibold,
+      color: Colors.text,
+      marginBottom: 8,
+    },
+    detailDescription: {
+      fontSize: Fonts.size.regular,
+      color: Colors.text,
+    },
+    button: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: Colors.primary,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      borderRadius: 8,
+      marginBottom: 12,
+    },
+    buttonIcon: {
+      marginRight: 8,
+    },
+    buttonText: {
+      color: Colors.white,
+      fontSize: Fonts.size.medium,
+      fontWeight: Fonts.weight.semibold,
+    },
+    uploadStatus: {
+      fontSize: Fonts.size.regular,
+      color: Colors.textLight,
+      fontStyle: 'italic',
+      marginTop: 16,
+    },
+    errorText: {
+      fontSize: Fonts.size.large,
+      color: Colors.error,
+      textAlign: 'center',
+    },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: Colors.screenBackground,
+    },
+  });
+
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
   }
 
   if (!assignment) {
@@ -129,78 +215,32 @@ const AssignmentRecordScreen = ({ route }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{assignment.title}</Text>
-      <Text style={styles.subject}>Subject: {assignment.subject}</Text>
-      <Text style={styles.dueDate}>Due Date: {assignment.due_date}</Text>
-      <Text style={styles.description}>{assignment.description}</Text>
-      {assignment.content && assignment.content.details.map((detail, index) => (
-        <View key={index} style={styles.detailsContainer}>
-          <Text style={styles.heading}>{detail.heading}</Text>
-          <Text style={styles.detailDescription}>{detail.description}</Text>
-        </View>
-      ))}
-      {assignment.download_url && (
-        <View style={styles.buttonContainer}>
-          <Button title="Download & Share PDF" onPress={downloadPDF} />
-        </View>
-      )}
-      <View style={styles.buttonContainer}>
-        <Button title="Upload Completed Assignment" onPress={uploadAssignment} />
-      </View>
-      <Text style={styles.uploadStatus}>Upload Status: {assignment.upload_status}</Text>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>{assignment.title}</Text>
+        <Text style={styles.subject}>Subject: {assignment.subject}</Text>
+        <Text style={styles.dueDate}>Due Date: {assignment.due_date}</Text>
+        <Text style={styles.description}>{assignment.description}</Text>
+        {assignment.content && assignment.content.details.map((detail, index) => (
+          <View key={index} style={styles.detailsContainer}>
+            <Text style={styles.heading}>{detail.heading}</Text>
+            <Text style={styles.detailDescription}>{detail.description}</Text>
+          </View>
+        ))}
+        {assignment.download_url && (
+          <TouchableOpacity style={styles.button} onPress={downloadPDF}>
+            <Ionicons name="download-outline" size={20} color={Colors.white} style={styles.buttonIcon} />
+            <Text style={styles.buttonText}>Download & Share PDF</Text>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity style={styles.button} onPress={uploadAssignment}>
+          <Ionicons name="cloud-upload-outline" size={20} color={Colors.white} style={styles.buttonIcon} />
+          <Text style={styles.buttonText}>Upload Completed Assignment</Text>
+        </TouchableOpacity>
+        <Text style={styles.uploadStatus}>Upload Status: {assignment.upload_status}</Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  subject: {
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  dueDate: {
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  detailsContainer: {
-    marginBottom: 20,
-  },
-  heading: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  detailDescription: {
-    fontSize: 16,
-    marginTop: 10,
-  },
-  buttonContainer: {
-    marginVertical: 10,
-  },
-  uploadStatus: {
-    marginTop: 20,
-    fontSize: 16,
-    fontStyle: 'italic',
-  },
-  errorText: {
-    fontSize: 18,
-    color: 'red',
-    textAlign: 'center',
-  },
-});
 
 export default AssignmentRecordScreen;

@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
+import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AssignmentsScreen: React.FC = () => {
   const { assignments, loading } = useApiData();
@@ -11,107 +14,119 @@ const AssignmentsScreen: React.FC = () => {
     navigation.navigate('AssignmentRecord', { id });
   };
 
+  const renderAssignmentItem = ({ item: assignment }) => (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigateToAssignmentRecord(assignment.id)}
+    >
+      <View style={styles.iconContainer}>
+        <Ionicons 
+          name={assignment.status === 'Complete' ? "checkmark-circle-outline" : "time-outline"} 
+          size={24} 
+          color={assignment.status === 'Complete' ? Colors.success : Colors.primary} 
+        />
+      </View>
+      <View style={styles.cardContent}>
+        <Text style={styles.title}>{assignment.title}</Text>
+        <Text style={styles.subject}>{assignment.subject}</Text>
+        <Text style={styles.dueDate}>Due: {assignment.due_date}</Text>
+      </View>
+      <View style={styles.statusContainer}>
+        <Text style={[
+          styles.status, 
+          assignment.status === 'Complete' ? styles.completeStatus : styles.incompleteStatus
+        ]}>
+          {assignment.status}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Assignments</Text>
-      <View style={styles.cardsContainer}>
-        {assignments.map((assignment) => (
-          <TouchableOpacity
-            key={assignment.id}
-            style={styles.card}
-            onPress={() => navigateToAssignmentRecord(assignment.id)}
-          >
-            <View style={styles.textContainer}>
-              <View style={styles.subjectContainer}>
-                <Text style={styles.cardText}>{assignment.title}</Text>
-              </View>
-              <View style={styles.detailsContainer}>
-                <Text style={styles.dateText}>{assignment.due_date}</Text>
-                <Text style={styles.subjectText}>{assignment.subject}</Text>
-                <Text style={assignment.status === 'Complete' ? styles.completeText : styles.incompleteText}>
-                  {assignment.status}
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <FlatList
+        data={assignments}
+        renderItem={renderAssignmentItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContainer}
+      />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.screenBackground,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  cardsContainer: {
-    flexDirection: 'column',
+  listContainer: {
+    padding: 16,
   },
   card: {
-    backgroundColor: '#ffffff',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  textContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    marginBottom: 12,
+    padding: 16,
     alignItems: 'center',
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  subjectContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+  iconContainer: {
+    marginRight: 16,
   },
-  detailsContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-end',
+  cardContent: {
+    flex: 1,
   },
-  cardText: {
-    fontSize: 16,
-    fontWeight: '600',
+  title: {
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.bold,
+    color: Colors.text,
+    marginBottom: 4,
   },
-  dateText: {
-    fontSize: 14,
-    color: '#888',
+  subject: {
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
+    marginBottom: 2,
   },
-  subjectText: {
-    fontSize: 14,
-    color: '#444',
+  dueDate: {
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
   },
-  completeText: {
-    fontSize: 14,
-    color: 'green',
+  statusContainer: {
+    marginLeft: 8,
   },
-  incompleteText: {
-    fontSize: 14,
-    color: 'red',
+  status: {
+    fontSize: Fonts.size.tiny,
+    fontWeight: Fonts.weight.bold,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+  },
+  completeStatus: {
+    color: Colors.white,
+    backgroundColor: Colors.success,
+  },
+  incompleteStatus: {
+    color: Colors.white,
+    backgroundColor: Colors.primary,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.screenBackground,
   },
 });
 
