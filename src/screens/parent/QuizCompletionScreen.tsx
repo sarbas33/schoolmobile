@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Colors } from '../../constants/Colors';
 
@@ -19,28 +19,40 @@ const QuizCompletionScreen: React.FC = () => {
     });
   };
 
+  const handleExit = () => {
+    navigation.navigate('Quiz');
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.resultContainer}>
-        <Text style={styles.resultText}>Quiz Completed!</Text>
-        <Text style={styles.scoreText}>
-          You got <Text style={styles.scoreHighlight}>{correctAnswersCount}</Text> out of <Text style={styles.scoreHighlight}>{totalQuestions}</Text> correct!
-        </Text>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.resultContainer}>
+          <Text style={styles.resultText}>Quiz Completed!</Text>
+          <Text style={styles.scoreText}>
+            You got <Text style={styles.scoreHighlight}>{correctAnswersCount}</Text> out of <Text style={styles.scoreHighlight}>{totalQuestions}</Text> correct!
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.reviewButton} onPress={navigateToQuizReview}>
+          <Text style={styles.reviewButtonText}>Review Answers</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.exitButton} onPress={handleExit}>
+          <Text style={styles.exitButtonText}>Exit Quiz</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.reviewButton} onPress={navigateToQuizReview}>
-        <Text style={styles.reviewButtonText}>Review Answers</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.screenBackground,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: Colors.screenBackground,
   },
   resultContainer: {
     backgroundColor: Colors.white,
@@ -69,7 +81,7 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   reviewButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.darkGrey,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
@@ -77,6 +89,14 @@ const styles = StyleSheet.create({
   },
   reviewButtonText: {
     color: Colors.white,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  exitButton: {
+    marginTop: 16,
+  },
+  exitButtonText: {
+    color: Colors.error,
     fontSize: 16,
     fontWeight: '600',
   },
