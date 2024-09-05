@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
+import { Colors } from '../../constants/Colors';
 
 const QuizQuestionScreen: React.FC = () => {
   const { quizId } = useRoute().params as { quizId: string };
@@ -30,9 +31,9 @@ const QuizQuestionScreen: React.FC = () => {
     } else {
       navigation.navigate('QuizCompletion', {
         quizId,
-        correctAnswersCount: correctAnswersCount + (isCorrect ? 1 : 0), // Ensure final answer is counted
+        correctAnswersCount: correctAnswersCount + (isCorrect ? 1 : 0),
         totalQuestions: quiz.questions.length,
-        selectedAnswers: updatedAnswers, // Pass updated selected answers
+        selectedAnswers: updatedAnswers,
       });
     }
   };
@@ -40,14 +41,21 @@ const QuizQuestionScreen: React.FC = () => {
   if (!quiz) {
     return (
       <View style={styles.loadingContainer}>
-        <Text>Quiz not found.</Text>
+        <Text style={styles.loadingText}>Quiz not found.</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.quizTitle}>{quiz.quizName}</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.progressContainer}>
+        <Text style={styles.progressText}>
+          Question {currentQuestionIndex + 1} of {quiz.questions.length}
+        </Text>
+        <View style={styles.progressBar}>
+          <View style={[styles.progressFill, { width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }]} />
+        </View>
+      </View>
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>{currentQuestion?.question}</Text>
       </View>
@@ -62,50 +70,77 @@ const QuizQuestionScreen: React.FC = () => {
           </TouchableOpacity>
         ))}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.screenBackground,
+    padding: 16,
   },
-  quizTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
+  progressContainer: {
     marginBottom: 20,
+  },
+  progressText: {
+    fontSize: 14,
+    color: Colors.textLight,
+    marginBottom: 8,
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: Colors.lightGray,
+    borderRadius: 2,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: Colors.primary,
+    borderRadius: 2,
   },
   questionContainer: {
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    padding: 16,
     marginBottom: 20,
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   questionText: {
     fontSize: 18,
     fontWeight: '600',
+    color: Colors.text,
   },
   optionsContainer: {
     marginBottom: 20,
   },
   optionButton: {
-    backgroundColor: '#ffffff',
-    padding: 15,
-    marginBottom: 10,
+    backgroundColor: Colors.white,
+    padding: 16,
+    marginBottom: 12,
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: Colors.text,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   optionText: {
     fontSize: 16,
+    color: Colors.text,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.screenBackground,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: Colors.text,
   },
 });
 

@@ -33,13 +33,6 @@ const QuizScreen: React.FC = () => {
         style={styles.card}
         onPress={() => navigateToQuizDetails(quiz.id)}
       >
-        <View style={styles.iconContainer}>
-          <Ionicons 
-            name={isUpcoming ? "help-circle-outline" : "checkmark-circle-outline"} 
-            size={20} 
-            color={Colors.headerTint} 
-          />
-        </View>
         <View style={styles.cardContent}>
           <Text style={styles.quizName}>{quiz.quizName}</Text>
           <Text style={styles.quizInfo}>Due: {quizDeadline.toLocaleDateString()}</Text>
@@ -80,43 +73,37 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.screenBackground,
   },
   listContainer: {
-    padding: 12,
+    padding: 16,
   },
   card: {
     flexDirection: 'row',
     backgroundColor: Colors.white,
     borderRadius: 8,
-    marginBottom: 8,
-    padding: 12,
+    marginBottom: 16,
+    padding: 16,
     alignItems: 'center',
     shadowColor: Colors.text,
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  iconContainer: {
-    marginRight: 12,
-    backgroundColor: Colors.headerBackground,
-    borderRadius: 20,
-    padding: 8,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cardContent: {
     flex: 1,
   },
   quizName: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
     color: Colors.text,
-    marginBottom: 2,
+    marginBottom: 4,
   },
   quizInfo: {
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.textLight,
-    marginBottom: 2,
+    marginBottom: 4,
   },
   quizType: {
-    fontSize: 11,
+    fontSize: 12,
     color: Colors.textLight,
     fontStyle: 'italic',
   },
@@ -124,19 +111,19 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   quizStatus: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: 'bold',
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 16,
   },
   completedStatus: {
     color: Colors.white,
-    backgroundColor: Colors.headerTint,
+    backgroundColor: Colors.success,
   },
   upcomingStatus: {
     color: Colors.white,
-    backgroundColor: Colors.textLight,
+    backgroundColor: Colors.primary,
   },
   loadingContainer: {
     flex: 1,

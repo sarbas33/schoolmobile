@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { Colors } from '../../constants/Colors';
 
 const QuizCompletionScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -20,7 +21,12 @@ const QuizCompletionScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.resultText}>You got {correctAnswersCount} out of {totalQuestions} correct!</Text>
+      <View style={styles.resultContainer}>
+        <Text style={styles.resultText}>Quiz Completed!</Text>
+        <Text style={styles.scoreText}>
+          You got <Text style={styles.scoreHighlight}>{correctAnswersCount}</Text> out of <Text style={styles.scoreHighlight}>{totalQuestions}</Text> correct!
+        </Text>
+      </View>
       <TouchableOpacity style={styles.reviewButton} onPress={navigateToQuizReview}>
         <Text style={styles.reviewButtonText}>Review Answers</Text>
       </TouchableOpacity>
@@ -34,20 +40,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: Colors.screenBackground,
+  },
+  resultContainer: {
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   resultText: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: Colors.text,
+    marginBottom: 16,
+  },
+  scoreText: {
+    fontSize: 18,
+    color: Colors.text,
+    textAlign: 'center',
+  },
+  scoreHighlight: {
+    fontWeight: 'bold',
+    color: Colors.primary,
   },
   reviewButton: {
-    backgroundColor: '#4CAF50',
-    padding: 15,
+    backgroundColor: Colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 8,
-    marginTop: 20,
+    marginTop: 32,
   },
   reviewButtonText: {
-    color: '#ffffff',
+    color: Colors.white,
     fontSize: 16,
     fontWeight: '600',
   },

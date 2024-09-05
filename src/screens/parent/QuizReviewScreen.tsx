@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
+import { Colors } from '../../constants/Colors';
 
 const QuizReviewScreen: React.FC = () => {
   const { quizId, selectedAnswers } = useRoute().params as {
@@ -15,55 +16,79 @@ const QuizReviewScreen: React.FC = () => {
   if (!quiz) {
     return (
       <View style={styles.loadingContainer}>
-        <Text>Quiz not found.</Text>
+        <Text style={styles.loadingText}>Quiz not found.</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.quizTitle}>Quiz Review</Text>
+    <ScrollView style={styles.container}>
       {quiz.questions.map((question, index) => (
         <View key={index} style={styles.questionContainer}>
           <Text style={styles.questionText}>{question.question}</Text>
-          <Text style={styles.answerText}>
+          <Text style={[
+            styles.answerText,
+            selectedAnswers[index] === question.correctAnswer ? styles.correctAnswer : styles.wrongAnswer
+          ]}>
             Your Answer: {selectedAnswers[index]}
-            {selectedAnswers[index] === question.correctAnswer ? ' (Correct)' : ` (Wrong, Correct Answer: ${question.correctAnswer})`}
           </Text>
+          {selectedAnswers[index] !== question.correctAnswer && (
+            <Text style={styles.correctAnswerText}>
+              Correct Answer: {question.correctAnswer}
+            </Text>
+          )}
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
-  },
-  quizTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
+    backgroundColor: Colors.screenBackground,
   },
   questionContainer: {
-    marginBottom: 20,
+    backgroundColor: Colors.white,
+    marginBottom: 16,
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   questionText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
+    color: Colors.text,
+    marginBottom: 8,
   },
   answerText: {
-    fontSize: 16,
-    color: '#555',
-    marginTop: 5,
+    fontSize: 14,
+    marginTop: 4,
+  },
+  correctAnswer: {
+    color: Colors.success,
+  },
+  wrongAnswer: {
+    color: Colors.error,
+  },
+  correctAnswerText: {
+    fontSize: 14,
+    color: Colors.success,
+    marginTop: 4,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.screenBackground,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: Colors.text,
   },
 });
 
