@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useApiData } from '../../context/ApiDataContext';
+import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
 import moment from 'moment';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ScheduleScreen: React.FC = () => {
   const { timetable } = useApiData();
@@ -31,92 +34,143 @@ const ScheduleScreen: React.FC = () => {
       const endTime = moment(item.time, 'HH:mm').add(item.duration, 'minutes').format('h:mm A');
       return (
         <View key={item.id} style={[styles.card, styles[item.type]]}>
-          <Text style={styles.time}>{moment(item.time, 'HH:mm').format('h:mm A')} - {endTime}</Text>
-          <Text style={styles.name}>{item.name}</Text>
+          <View style={styles.timeContainer}>
+            <Text style={styles.time}>{moment(item.time, 'HH:mm').format('h:mm A')}</Text>
+            <Text style={styles.endTime}>{endTime}</Text>
+          </View>
+          <View style={styles.contentContainer}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.type}>{item.type.charAt(0).toUpperCase() + item.type.slice(1)}</Text>
+          </View>
+          <View style={styles.iconContainer}>
+            {item.type === 'class' && <Ionicons name="book-outline" size={20} color={Colors.darkGrey} />}
+            {item.type === 'test' && <Ionicons name="clipboard-outline" size={20} color={Colors.error} />}
+            {item.type === 'event' && <Ionicons name="calendar-outline" size={20} color={Colors.success} />}
+          </View>
         </View>
       );
     });
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.switchContainer}>
-        <TouchableOpacity
-          style={[styles.switchButton, currentDay === 'today' && styles.activeButton]}
-          onPress={() => handleDaySwitch('today')}
-        >
-          <Text style={styles.switchButtonText}>Today ({todayDate})</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.switchButton, currentDay === 'tomorrow' && styles.activeButton]}
-          onPress={() => handleDaySwitch('tomorrow')}
-        >
-          <Text style={styles.switchButtonText}>Tomorrow ({tomorrowDate})</Text>
-        </TouchableOpacity>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.switchContainer}>
+          <TouchableOpacity
+            style={[styles.switchButton, currentDay === 'today' && styles.activeButton]}
+            onPress={() => handleDaySwitch('today')}
+          >
+            <Text style={[styles.switchButtonText, currentDay === 'today' && styles.activeButtonText]}>Today ({todayDate})</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.switchButton, currentDay === 'tomorrow' && styles.activeButton]}
+            onPress={() => handleDaySwitch('tomorrow')}
+          >
+            <Text style={[styles.switchButtonText, currentDay === 'tomorrow' && styles.activeButtonText]}>Tomorrow ({tomorrowDate})</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView style={styles.timetableContainer}>
+          {renderTimetable(currentDay)}
+        </ScrollView>
       </View>
-      <ScrollView style={styles.timetableContainer}>
-        {renderTimetable(currentDay)}
-      </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.screenBackground,
+  },
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: '#f8f8f8',
+    padding: 16,
   },
   switchContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 16,
   },
   switchButton: {
     paddingVertical: 8,
-    paddingHorizontal: 15,
-    backgroundColor: '#e0e0e0',
-    marginHorizontal: 5,
-    borderRadius: 5,
+    paddingHorizontal: 16,
+    backgroundColor: Colors.white,
+    marginHorizontal: 8,
+    borderRadius: 20,
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   activeButton: {
-    backgroundColor: 'grey',
+    backgroundColor: Colors.darkGrey,
   },
   switchButtonText: {
-    color: '#ffffff',
-    fontWeight: 'bold',
+    color: Colors.text,
+    fontWeight: Fonts.weight.semibold,
+    fontSize: Fonts.size.regular,
+  },
+  activeButtonText: {
+    color: Colors.white,
   },
   timetableContainer: {
     flex: 1,
   },
   card: {
-    backgroundColor: '#ffffff',
-    padding: 10,
+    flexDirection: 'row',
+    backgroundColor: Colors.white,
+    padding: 12,
     marginBottom: 8,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  timeContainer: {
+    marginRight: 12,
+    alignItems: 'center',
   },
   time: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.bold,
+    color: Colors.text,
+  },
+  endTime: {
+    fontSize: Fonts.size.tiny,
+    color: Colors.textLight,
+  },
+  contentContainer: {
+    flex: 1,
   },
   name: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginVertical: 3,
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.bold,
+    color: Colors.text,
+    marginBottom: 2,
+  },
+  type: {
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 32,
   },
   test: {
-    backgroundColor: '#ffebee',
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.error,
   },
   class: {
-    backgroundColor: '#e3f2fd',
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.darkGrey,
   },
   event: {
-    backgroundColor: '#e8f5e9',
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.success,
   },
 });
 

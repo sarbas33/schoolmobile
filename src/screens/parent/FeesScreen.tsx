@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
 
 type FeesScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Fees'>;
 
@@ -87,27 +88,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feeName: {
-    fontSize: 15, // Increased from 14
-    fontWeight: 'bold',
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.bold,
     color: Colors.text,
     marginBottom: 2,
   },
   feeInfo: {
-    fontSize: 13, // Increased from 12
+    fontSize: Fonts.size.small,
     color: Colors.textLight,
   },
   amountContainer: {
     alignItems: 'flex-end',
   },
   amount: {
-    fontSize: 15, // Increased from 14
-    fontWeight: 'bold',
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.bold,
     color: Colors.headerTint,
     marginBottom: 2,
   },
   feeStatus: {
-    fontSize: 13, // Increased from 12
-    fontWeight: 'bold',
+    fontSize: Fonts.size.small,
+    fontWeight: Fonts.weight.bold,
     paddingVertical: 2,
     paddingHorizontal: 6,
     borderRadius: 8,
