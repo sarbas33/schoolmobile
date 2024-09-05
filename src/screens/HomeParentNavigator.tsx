@@ -65,7 +65,12 @@ const HomeStackNavigator = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerTitle: 'SchoolSync' }}
+          options={{ headerTitle: 'SchoolSync',
+                    headerTitleStyle: {
+                        color: '#1EA355', // Darker green color
+                        fontSize: 20, // Slightly smaller font size
+                        fontWeight: 'bold', // Bolder font
+              } }}
         />
         <Stack.Screen name="Timetable" component={ScheduleScreen} />
         <Stack.Screen name="BusTracking" component={BusTrackingScreen} />
