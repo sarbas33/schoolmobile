@@ -50,7 +50,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.studentDetails}>
-        {studentName} - {studentClass}
+        {studentName}
       </Text>
       <View style={[styles.card, { backgroundColor }]}>
         <Text style={styles.attendanceText}>{attendanceMessage}</Text>
