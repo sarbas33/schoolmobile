@@ -13,12 +13,14 @@ import FeesScreen from '../screens/parent/FeesScreen';
 import QuizScreen from '../screens/parent/QuizScreen';
 import { Colors } from '../constants/Colors';
 import Popover from 'react-native-popover-view';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
 const HomeStackNavigator = () => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const touchableRef = useRef();
+  const navigation = useNavigation();
 
   const handleMenuPress = () => {
     setPopoverVisible(true);
@@ -35,7 +37,7 @@ const HomeStackNavigator = () => {
 
   const handleContactDevelopers = () => {
     // Handle contact developers action
-    Alert.alert('Contact Developers', 'Email: developers@schoolsync.com');
+    Alert.alert('Contact Developers', 'Email: schoolsyncdevs@gmail.com');
     setPopoverVisible(false);
   };
 

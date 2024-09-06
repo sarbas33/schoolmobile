@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Colors } from '../constants/Colors';
 
 const LoginScreen = ({ navigation }) => {
   const [schoolId, setSchoolId] = useState('');
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   loginButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: Colors.darkGrey, // Updated to use darkGrey color
     paddingVertical: 10,
     paddingHorizontal: 80,
     borderRadius: 25,
