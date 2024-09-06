@@ -98,7 +98,7 @@ const HomeScreen = () => {
 
         <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Quiz')}>
           <View style={styles.iconBackground}>
-            <Ionicons name="document-text-outline" size={20} color="#fff" />
+            <Ionicons name="help-circle-outline" size={20} color="#fff" />
           </View>
           <Text style={styles.iconText}>Quiz</Text>
         </TouchableOpacity>
