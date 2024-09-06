@@ -40,20 +40,20 @@ const AcademicsStackNavigator = () => {
     >
       <Stack.Screen name="Academics" component={AcademicsScreen} />
       <Stack.Screen name="Attendance" component={AttendanceScreen} />
-      <Stack.Screen name="AttendanceRecord" component={AttendanceRecordScreen} />
-      <Stack.Screen name="AttendanceCollege" component={AttendanceCollegeScreen} />
-      <Stack.Screen name="AttendanceCollegeRecord" component={AttendanceCollegeRecordScreen} />
-      <Stack.Screen name="Grades" component={GradesScreen} />
-      <Stack.Screen name="ExamGrades" component={ExamGradesScreen} />
-      <Stack.Screen name="GradesRecord" component={GradesRecordScreen} />
-      <Stack.Screen name="Tests" component={TestsScreen} />
-      <Stack.Screen name="Assignments" component={AssignmentsScreen} />
-      <Stack.Screen name="AssignmentRecord" component={AssignmentRecordScreen} />
-      <Stack.Screen name="Schedule" component={ScheduleScreen} />
-      <Stack.Screen name="Quiz" component={QuizScreen} />
-      <Stack.Screen name="QuizQuestion" component={QuizQuestionScreen} />
-      <Stack.Screen name="QuizCompletion" component={QuizCompletionScreen} />
-      <Stack.Screen name="QuizReview" component={QuizReviewScreen} />
+      <Stack.Screen name="AttendanceRecord" component={AttendanceRecordScreen} options={{ headerTitle: 'Attendance' }} />
+      <Stack.Screen name="AttendanceCollege" component={AttendanceCollegeScreen} options={{ headerTitle: 'Attendance' }}/>
+      <Stack.Screen name="AttendanceCollegeRecord" component={AttendanceCollegeRecordScreen} options={{ headerTitle: 'Attendance' }} />
+      <Stack.Screen name="Grades" component={GradesScreen} options={{ headerTitle: 'Grades' }} />
+      <Stack.Screen name="ExamGrades" component={ExamGradesScreen} options={{ headerTitle: 'Grades' }} />
+      <Stack.Screen name="GradesRecord" component={GradesRecordScreen} options={{ headerTitle: 'Grades' }} />
+      <Stack.Screen name="Tests" component={TestsScreen} options={{ headerTitle: 'Tests' }} />
+      <Stack.Screen name="Assignments" component={AssignmentsScreen} options={{ headerTitle: 'Assignments' }} />
+      <Stack.Screen name="AssignmentRecord" component={AssignmentRecordScreen} options={{ headerTitle: 'Assignments' }} />
+      <Stack.Screen name="Schedule" component={ScheduleScreen} options={{ headerTitle: 'Schedule' }} />
+      <Stack.Screen name="Quiz" component={QuizScreen} options={{ headerTitle: 'Quiz' }} />
+      <Stack.Screen name="QuizQuestion" component={QuizQuestionScreen} options={{ headerTitle: 'Quiz' }} />
+      <Stack.Screen name="QuizCompletion" component={QuizCompletionScreen} options={{ headerTitle: 'Quiz' }} />
+      <Stack.Screen name="QuizReview" component={QuizReviewScreen} options={{ headerTitle: 'Quiz' }} />
     </Stack.Navigator>
   );
 };
