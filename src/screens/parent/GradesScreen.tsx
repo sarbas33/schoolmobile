@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
 
 const GradesScreen: React.FC = () => {
   const { examTypes, loading } = useApiData();
@@ -11,30 +14,37 @@ const GradesScreen: React.FC = () => {
     navigation.navigate('ExamGrades', { examType });
   };
 
+  const renderExamItem = ({ item: exam }) => (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigateToExamGrades(exam.type)}
+    >
+      <View style={styles.iconContainer}>
+        <Ionicons name="document-text-outline" size={20} color={Colors.headerTint} />
+      </View>
+      <View style={styles.cardContent}>
+        <Text style={styles.examText}>{exam.type}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={20} color={Colors.textLight} />
+    </TouchableOpacity>
+  );
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color={Colors.headerTint} />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Exams</Text>
-      <View style={styles.cardsContainer}>
-        {examTypes.map((exam) => (
-          <TouchableOpacity
-            key={exam.type}
-            style={styles.card}
-            onPress={() => navigateToExamGrades(exam.type)}
-          >
-            <View style={styles.textContainer}>
-              <Text style={styles.examText}>{exam.type}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <FlatList
+        data={examTypes}
+        renderItem={renderExamItem}
+        keyExtractor={(item) => item.type}
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
 };
@@ -42,43 +52,43 @@ const GradesScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.screenBackground,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  cardsContainer: {
-    flexDirection: 'column',
+  listContainer: {
+    padding: 12,
   },
   card: {
-    backgroundColor: '#ffffff',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  textContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    marginBottom: 8,
+    padding: 12,
     alignItems: 'center',
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  iconContainer: {
+    marginRight: 12,
+    backgroundColor: Colors.headerBackground,
+    borderRadius: 20,
+    padding: 8,
+  },
+  cardContent: {
+    flex: 1,
   },
   examText: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.semibold,
+    color: Colors.text,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.screenBackground,
   },
 });
 
