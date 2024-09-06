@@ -11,38 +11,42 @@
   },
 
 
-  "grades":  [
+  "examTypes": [
+    { "type": "First Term Examination" },
+    { "type": "Mid Term Examination" },
+    { "type": "Final Examination" }
+  ],
+  "grades": [
     {
       "id": "1",
+      "examType": "First Term Examination",
+      "subject": "Mathematics",
+      "code": "MATH101",
+      "grade": "A+"
+    },
+    {
+      "id": "2",
+      "examType": "First Term Examination",
+      "subject": "Science",
+      "code": "SCI101",
+      "grade": "A"
+    },
+    {
+      "id": "3",
+      "examType": "Mid Term Examination",
       "subject": "Mathematics",
       "code": "MATH101",
       "grade": "A"
     },
     {
-      "id": "2",
-      "subject": "English Literature",
-      "code": "ENG202",
-      "grade": "B+"
-    },
-    {
-      "id": "3",
-      "subject": "Physics",
-      "code": "PHYS303",
-      "grade": "A-"
-    },
-    {
       "id": "4",
-      "subject": "Chemistry",
-      "code": "CHEM404",
-      "grade": "A"
-    },
-    {
-      "id": "5",
-      "subject": "History",
-      "code": "HIST505",
-      "grade": "A"
+      "examType": "Mid Term Examination",
+      "subject": "Science",
+      "code": "SCI101",
+      "grade": "B+"
     }
   ],
+
   "attendanceSubjectWise":
   [
     {

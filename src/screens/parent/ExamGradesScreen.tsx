@@ -1,15 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
 
-const GradesScreen: React.FC = () => {
-  const { examTypes, loading } = useApiData();
+const ExamGradesScreen: React.FC = () => {
+  const { examType } = useRoute().params;
+  const { grades, loading } = useApiData();
   const navigation = useNavigation();
 
-  const navigateToExamGrades = (examType: string) => {
-    navigation.navigate('ExamGrades', { examType });
-  };
+  const gradesForExam = grades.filter((grade) => grade.examType === examType);
 
   if (loading) {
     return (
@@ -21,16 +20,24 @@ const GradesScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Exams</Text>
+      <Text style={styles.title}>{examType} Grades</Text>
       <View style={styles.cardsContainer}>
-        {examTypes.map((exam) => (
+        {gradesForExam.map((grade) => (
           <TouchableOpacity
-            key={exam.type}
+            key={grade.id}
             style={styles.card}
-            onPress={() => navigateToExamGrades(exam.type)}
+            onPress={() => navigation.navigate('GradesRecord', { subject: grade.subject })}
           >
             <View style={styles.textContainer}>
-              <Text style={styles.examText}>{exam.type}</Text>
+              <View style={styles.subjectContainer}>
+                {grade.code && <Text style={styles.codeText}>{grade.code}</Text>}
+                <Text> </Text>
+                <Text style={styles.cardText}>{grade.subject}</Text>
+              </View>
+              <View style={styles.gradeContainer}>
+                <Text style={styles.gradeText}>{grade.grade}</Text>
+                <Text style={styles.linkText}>View</Text>
+              </View>
             </View>
           </TouchableOpacity>
         ))}
@@ -68,12 +75,35 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  examText: {
-    fontSize: 18,
+  subjectContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  gradeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cardText: {
+    fontSize: 14,
     fontWeight: '600',
+  },
+  codeText: {
+    fontSize: 14,
+    color: '#888',
+    marginLeft: 5,
+  },
+  gradeText: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginRight: 10,
+  },
+  linkText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: 'blue',
   },
   loadingContainer: {
     flex: 1,
@@ -82,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GradesScreen;
+export default ExamGradesScreen;

@@ -6,6 +6,7 @@ import AttendanceRecordScreen from '../screens/parent/AttendanceRecordScreen';
 import AttendanceCollegeScreen from '../screens/parent/AttendanceCollegeScreen';
 import AttendanceCollegeRecordScreen from '../screens/parent/AttendanceCollegeRecordScreen';
 import GradesScreen from '../screens/parent/GradesScreen';
+import ExamGradesScreen from '../screens/parent/ExamGradesScreen';
 import GradesRecordScreen from '../screens/parent/GradesRecordScreen';
 import TestsScreen from '../screens/parent/TestsScreen';
 import AssignmentsScreen from '../screens/parent/AssignmentsScreen';
@@ -43,6 +44,7 @@ const AcademicsStackNavigator = () => {
       <Stack.Screen name="AttendanceCollege" component={AttendanceCollegeScreen} />
       <Stack.Screen name="AttendanceCollegeRecord" component={AttendanceCollegeRecordScreen} />
       <Stack.Screen name="Grades" component={GradesScreen} />
+      <Stack.Screen name="ExamGrades" component={ExamGradesScreen} />
       <Stack.Screen name="GradesRecord" component={GradesRecordScreen} />
       <Stack.Screen name="Tests" component={TestsScreen} />
       <Stack.Screen name="Assignments" component={AssignmentsScreen} />
