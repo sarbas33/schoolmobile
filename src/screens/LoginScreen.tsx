@@ -3,7 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvo
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../constants/Colors';
-import { API_DOMAIN } from '../constants/ApiConstants'; // Add this import
+import { API_DOMAIN } from '../constants/ApiConstants';
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Add this import
 
 const LoginScreen = ({ navigation }) => {
   const [schoolId, setSchoolId] = useState('');
@@ -11,6 +12,7 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Add this state
 
   useEffect(() => {
     // Check if the user is already logged in
@@ -94,6 +96,10 @@ const LoginScreen = ({ navigation }) => {
     alert('Forgot password functionality to be implemented.');
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -118,14 +124,19 @@ const LoginScreen = ({ navigation }) => {
             onChangeText={setUsername}
             placeholderTextColor="#999"
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholderTextColor="#999"
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+              placeholderTextColor="#999"
+            />
+            <TouchableOpacity onPress={toggleShowPassword} style={styles.eyeIcon}>
+              <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={24} color={Colors.darkGrey} />
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity onPress={handleForgotPassword}>
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
@@ -202,6 +213,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
     fontSize: 14,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    height: 45,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 20,
+    marginBottom: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    height: '100%',
+    paddingHorizontal: 15,
+    fontSize: 14,
+    color: '#333',
+  },
+  eyeIcon: {
+    padding: 10,
   },
 });
 
