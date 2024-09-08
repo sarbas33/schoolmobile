@@ -10,6 +10,7 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     // Check if the user is already logged in
@@ -28,6 +29,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     setIsLoggingIn(true);
+    setErrorMessage('');
     try {
       const loginData = JSON.stringify({
         schoolId: schoolId,
@@ -59,11 +61,21 @@ const LoginScreen = ({ navigation }) => {
           routes: [{ name: 'App' }],
         });
       } else {
-        alert('Login failed: ' + response.data.message);
+        setErrorMessage(response.data.message);
       }
     } catch (error) {
-      console.error('Login error:', error);
-      alert('An error occurred during login.');
+      //console.error('Login error:', error);
+      if (error.response) {
+        if (error.response.status === 404) {
+          setErrorMessage('School not found. Please check your School ID.');
+        } else if (error.response.status === 401) {
+          setErrorMessage('Invalid username or password');
+        } else {
+          setErrorMessage(error.response.data.message || 'An error occurred during login.');
+        }
+      } else {
+        setErrorMessage('An error occurred during login. Please try again.');
+      }
     } finally {
       setIsLoggingIn(false);
     }
@@ -83,6 +95,7 @@ const LoginScreen = ({ navigation }) => {
         <View style={styles.innerContainer}>
           <Image source={require('../assets/images/logo.png')} style={styles.logo} />
           <Text style={styles.title}>Welcome Back</Text>
+          {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
           <TextInput
             style={styles.input}
             placeholder="School ID"
@@ -148,7 +161,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   input: {
-    height: 35, // Smaller height for input fields
+    height: 45, // Increased from 35 to 45
     width: '80%',
     backgroundColor: '#f1f1f1',
     borderRadius: 20,
@@ -175,6 +188,12 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  errorText: {
+    color: Colors.error,
+    textAlign: 'center',
+    marginBottom: 10,
+    fontSize: 14,
   },
 });
 
