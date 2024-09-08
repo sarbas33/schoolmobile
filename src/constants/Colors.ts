@@ -10,5 +10,6 @@ export const Colors = {
   success: '#4caf50', // Green color for success
   error: '#f44336', // Red color for error
   darkGrey: '#34495e', // Darkish grey color for buttons
+  warning: '#f39c12', // Yellow color for warning
   // ... other color constants
 };

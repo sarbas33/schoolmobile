@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { useApiData } from '../../context/ApiDataContext';
+import { Colors } from '../../constants/Colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Define the data type for an attendance record
 type AttendanceRecord = {
@@ -12,41 +14,62 @@ type AttendanceRecord = {
 const AttendanceRecordScreen: React.FC = () => {
   const { attendanceRecord, loading } = useApiData();
 
-  useEffect(() => {
-    //fetchAttendanceData();
-  }, []);
+  // Sort the attendance records by date (latest first)
+  const sortedAttendanceRecord = useMemo(() => {
+    if (!attendanceRecord) return [];
+    return [...attendanceRecord].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [attendanceRecord]);
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'Present':
+        return <Ionicons name="checkmark-circle" size={20} color={Colors.success} />;
+      case 'Absent':
+        return <Ionicons name="close-circle" size={20} color={Colors.error} />;
+      case 'Late':
+        return <Ionicons name="time" size={20} color={Colors.warning} />;
+      default:
+        return null;
+    }
+  };
 
   const renderItem = ({ item }: { item: AttendanceRecord }) => (
     <View style={styles.recordContainer}>
-      <Text style={styles.dateText}>{item.date}</Text>
-      <Text style={[styles.statusText, styles[`status${item.status}`]]}>
-        {item.status}
-      </Text>
+      <View style={styles.dateContainer}>
+        <Ionicons name="calendar-outline" size={20} color={Colors.primary} />
+        <Text style={styles.dateText}>{item.date}</Text>
+      </View>
+      <View style={styles.statusContainer}>
+        {getStatusIcon(item.status)}
+        <Text style={[styles.statusText, styles[`status${item.status}`]]}>
+          {item.status}
+        </Text>
+      </View>
     </View>
   );
 
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Loading...</Text>
+        <ActivityIndicator size="large" color={Colors.primary} />
+        <Text style={styles.loadingText}>Loading attendance records...</Text>
       </View>
     );
   }
 
-  if (attendanceRecord.length === 0) {
+  if (!sortedAttendanceRecord || sortedAttendanceRecord.length === 0) {
     return (
       <View style={styles.container}>
-        <Text>No attendance records found.</Text>
+        <Ionicons name="alert-circle-outline" size={40} color={Colors.textLight} />
+        <Text style={styles.noRecordsText}>No attendance records found.</Text>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Attendance Records</Text>
       <FlatList
-        data={attendanceRecord}
+        data={sortedAttendanceRecord}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
@@ -58,48 +81,78 @@ const AttendanceRecordScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#e8e7e6',
+    padding: 16,
+    backgroundColor: Colors.screenBackground,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: Colors.text,
     textAlign: 'center',
     marginBottom: 20,
   },
   listContent: {
-    paddingBottom: 20,
+    paddingBottom: 16,
   },
   recordContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.00,
-    elevation: 24,
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+    backgroundColor: Colors.white,
+    borderRadius: 10,
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dateText: {
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.text,
+    marginLeft: 8,
+  },
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start', // Changed from 'center' to 'flex-start'
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    minWidth: 100,
   },
   statusText: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: '700',
+    marginLeft: 4,
+    textAlign: 'left', // Added to ensure text alignment
   },
   statusPresent: {
-    color: 'green',
+    color: Colors.success,
   },
   statusAbsent: {
-    color: 'red',
+    color: Colors.error,
   },
   statusLate: {
-    color: 'orange',
+    color: Colors.warning,
+  },
+  loadingText: {
+    fontSize: 14,
+    color: Colors.textLight,
+    marginTop: 8,
+  },
+  noRecordsText: {
+    fontSize: 16,
+    color: Colors.textLight,
+    textAlign: 'center',
+    marginTop: 16,
   },
 });
 
