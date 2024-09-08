@@ -5,8 +5,21 @@ import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../../constants/Colors';
 
+interface StudentData {
+  profilePhoto?: string;
+  studentName?: string;
+  schoolName?: string;
+  studentId?: string;
+  batch?: string;
+  studentClass?: string;
+  parentName?: string;
+  address?: string;
+  mobileNumber?: string;
+  email?: string;
+}
+
 const ProfileScreen = () => {
-  const [studentData, setStudentData] = useState({});
+  const [studentData, setStudentData] = useState<StudentData>({});
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -48,15 +61,15 @@ const ProfileScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.profileContainer}>
-        {studentData.profilePhoto ? (
+        {!studentData.profilePhoto ? (
           <Image source={{ uri: studentData.profilePhoto }} style={styles.profilePhoto} />
         ) : (
           <View style={styles.defaultAvatarContainer}>
-            <Ionicons name="person-circle-outline" size={70} color={Colors.white} />
+            <Ionicons name="person" size={60} color={Colors.white} />
           </View>
         )}
-        <Text style={styles.studentName}>{studentData.studentName}</Text>
-        <Text style={styles.schoolName}>{studentData.schoolName}</Text>
+        <Text style={styles.studentName}>{studentData.studentName || 'Student Name'}</Text>
+        <Text style={styles.schoolName}>{studentData.schoolName || 'School Name'}</Text>
       </View>
 
       <View style={styles.detailsContainer}>
@@ -75,7 +88,7 @@ const ProfileScreen = () => {
             </View>
             <View style={styles.detailTextContainer}>
               <Text style={styles.detailLabel}>{detail.label}</Text>
-              <Text style={styles.detailValue}>{detail.value}</Text>
+              <Text style={styles.detailValue}>{detail.value || 'Not available'}</Text>
             </View>
           </View>
         ))}
@@ -116,7 +129,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: Colors.headerTint,
+    backgroundColor: Colors.darkGrey,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
