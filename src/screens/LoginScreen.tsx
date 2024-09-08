@@ -30,6 +30,14 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     setIsLoggingIn(true);
     setErrorMessage('');
+
+    // Check if any field is empty
+    if (!schoolId.trim() || !username.trim() || !password.trim()) {
+      setErrorMessage('Please fill in all fields');
+      setIsLoggingIn(false);
+      return;
+    }
+
     try {
       const loginData = JSON.stringify({
         schoolId: schoolId,
