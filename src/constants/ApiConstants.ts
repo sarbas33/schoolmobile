@@ -1,0 +1,1 @@
+export const API_DOMAIN = 'https://erpprojectapp-u91cqb9xc-sarbas-pariyaraths-projects.vercel.app';

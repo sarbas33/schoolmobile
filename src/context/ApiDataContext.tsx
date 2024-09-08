@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { fetchDataFromApi } from '../services/apiServices';
+import { API_DOMAIN } from '../constants/ApiConstants';
 
 interface Grade {
   id: string;
@@ -20,6 +21,7 @@ interface ApiDataContextType {
   loading: boolean;
   error: string | null;
   grades: Grade[];
+  examTypes: any[];
   refetchData: () => void;
 }
 
@@ -50,7 +52,8 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true);
     setError(null);
     try {
-      const fetchedData = await fetchDataFromApi();
+      const response = await fetchDataFromApi(`${API_DOMAIN}/api/data/test/testid`);
+      const fetchedData = JSON.parse(JSON.stringify(response));
       setData(fetchedData);
       setGrades(fetchedData.grades);
       setExamTypes(fetchedData.examTypes);

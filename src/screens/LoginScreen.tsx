@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvo
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../constants/Colors';
+import { API_DOMAIN } from '../constants/ApiConstants'; // Add this import
 
 const LoginScreen = ({ navigation }) => {
   const [schoolId, setSchoolId] = useState('');
@@ -28,11 +29,22 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     setIsLoggingIn(true);
     try {
-      const response = await axios.post('https://erpcollege.free.beeceptor.com/login', {
-        schoolId,
-        username,
-        password,
+      const loginData = JSON.stringify({
+        schoolId: schoolId,
+        username: username,
+        password: password
       });
+
+      const response = await axios.post(
+        `${API_DOMAIN}/api/auth/testlogin`,
+        loginData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
       if (response.data.success) {
         await AsyncStorage.setItem('userType', response.data.userType);
         await AsyncStorage.setItem('schoolName', response.data.schoolName);
