@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { useApiData } from '../../context/ApiDataContext';
 
 // Define the data type for an attendance record
 type AttendanceRecord = {
@@ -9,27 +10,10 @@ type AttendanceRecord = {
 };
 
 const AttendanceRecordScreen: React.FC = () => {
-  const [attendanceData, setAttendanceData] = useState<AttendanceRecord[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // Function to fetch attendance data from the API
-  const fetchAttendanceData = async () => {
-    try {
-      const response = await fetch('https://erpcollege.free.beeceptor.com/attendancerecord');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      setAttendanceData(data.records);
-    } catch (error) {
-      console.error('Error fetching attendance records:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { attendanceRecord, loading } = useApiData();
 
   useEffect(() => {
-    fetchAttendanceData();
+    //fetchAttendanceData();
   }, []);
 
   const renderItem = ({ item }: { item: AttendanceRecord }) => (
@@ -50,7 +34,7 @@ const AttendanceRecordScreen: React.FC = () => {
     );
   }
 
-  if (attendanceData.length === 0) {
+  if (attendanceRecord.length === 0) {
     return (
       <View style={styles.container}>
         <Text>No attendance records found.</Text>
@@ -62,7 +46,7 @@ const AttendanceRecordScreen: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Attendance Records</Text>
       <FlatList
-        data={attendanceData}
+        data={attendanceRecord}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}

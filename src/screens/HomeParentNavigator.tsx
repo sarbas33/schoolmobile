@@ -14,7 +14,7 @@ import QuizScreen from '../screens/parent/QuizScreen';
 import { Colors } from '../constants/Colors';
 import Popover from 'react-native-popover-view';
 import { useNavigation } from '@react-navigation/native';
-
+import AttendanceRecordScreen from '../screens/parent/AttendanceRecordScreen';
 const Stack = createStackNavigator();
 
 const HomeStackNavigator = () => {
@@ -80,6 +80,7 @@ const HomeStackNavigator = () => {
         <Stack.Screen name="AnnouncementDetail" component={AnnouncementDetailScreen} 
         options={{ headerTitle: 'Announcement' }} />
         <Stack.Screen name="Attendance" component={AttendanceScreen} />
+        <Stack.Screen name="AttendanceRecord" component={AttendanceRecordScreen} />
         <Stack.Screen name="Fees" component={FeesScreen} />
         <Stack.Screen name="Quiz" component={QuizScreen} />
       </Stack.Navigator>
