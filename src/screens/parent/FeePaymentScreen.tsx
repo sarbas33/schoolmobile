@@ -27,9 +27,17 @@ const FeePaymentScreen: React.FC = () => {
         {
           text: 'Proceed',
           onPress: () => {
-            // Implement actual payment logic here
-            Alert.alert('Success', 'Payment processed successfully!');
-            navigation.goBack();
+            // Inform the user about the test mode and future payment options
+            Alert.alert(
+              'Test Mode',
+              'You are using a test account. Actual payment options will be available once your school integrates a payment gateway with our system.',
+              [
+                {
+                  text: 'OK',
+                  onPress: () => navigation.goBack()
+                }
+              ]
+            );
           }
         }
       ]
