@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'right',
     marginBottom: 20,
+    color: Colors.text, // Use the text color from Colors
   },
   card: {
     padding: 15,
@@ -131,10 +132,12 @@ const styles = StyleSheet.create({
   attendanceText: {
     fontSize: 18,
     textAlign: 'center',
+    color: Colors.text
   },
   busText: {
     fontSize: 16,
     textAlign: 'center',
+    color: Colors.text
   },
   iconContainer: {
     flexDirection: 'row',
