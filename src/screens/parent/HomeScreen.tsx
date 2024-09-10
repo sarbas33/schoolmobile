@@ -55,9 +55,9 @@ const HomeScreen = () => {
       <View style={[styles.card, { backgroundColor }]}>
         <Text style={styles.attendanceText}>{attendanceMessage}</Text>
       </View>
-      <View style={styles.card}>
+      {/* <View style={styles.card}>
         <Text style={styles.busText}>{busMessage}</Text>
-      </View>
+      </View> */}
 
       {/* Navigation Options with Ionicons in a Grid Layout */}
       <View style={styles.iconContainer}>
@@ -103,6 +103,12 @@ const HomeScreen = () => {
           <Text style={styles.iconText}>Quiz</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Clubs')}>
+          <View style={styles.iconBackground}>
+            <Ionicons name="people-outline" size={20} color="#fff" />
+          </View>
+          <Text style={styles.iconText}>Clubs</Text>
+        </TouchableOpacity>
     </View>
   );
 };

@@ -320,7 +320,70 @@
       { "id": "4", "date": "2025-07-04", "status": "Present" },
       { "id": "5", "date": "2025-07-05", "status": "Absent" }
     ]
-  }
+  },
+  "clubs": [
+    {
+      "id": "club1",
+      "name": "Science Club",
+      "isAdminOfClub": true,
+      "announcements": [
+        {
+          "id": "announcement1",
+          "text": "Science Fair coming up! Prepare your projects.",
+          "postedBy": "Mr. John Doe",
+          "dayOfAnnouncement": "2024-09-01",
+          "deadline": "2024-09-15",
+          "eventDate": "2024-09-20"
+        },
+        {
+          "id": "announcement2",
+          "text": "Reminder: Submit your project ideas.",
+          "postedBy": "Ms. Jane Smith",
+          "dayOfAnnouncement": "2024-08-28",
+          "deadline": "2024-09-05",
+          "eventDate": "2024-09-20"
+        }
+      ]
+    },
+    {
+      "id": "club2",
+      "name": "Art Club",
+      "isAdminOfClub": false,
+      "announcements": [
+        {
+          "id": "announcement3",
+          "text": "Art Exhibition in two weeks. Get your artwork ready!",
+          "postedBy": "Mr. John Doe",
+          "dayOfAnnouncement": "2024-08-25",
+          "deadline": "2024-09-10",
+          "eventDate": "2024-09-12"
+        }
+      ]
+    },
+    {
+      "id": "club3",
+      "name": "Drama Club",
+      "isAdminOfClub": true,
+      "announcements": [
+        {
+          "id": "announcement4",
+          "text": "Auditions for the school play are next week.",
+          "postedBy": "Ms. Jane Smith",
+          "dayOfAnnouncement": "2024-08-30",
+          "deadline": "2024-09-05",
+          "eventDate": "2024-09-15"
+        },
+        {
+          "id": "announcement5",
+          "text": "Final rehearsal for the play on Friday.",
+          "postedBy": "Ms. Jane Smith",
+          "dayOfAnnouncement": "2024-09-01",
+          "deadline": "2024-09-10",
+          "eventDate": "2024-09-13"
+        }
+      ]
+    }
+  ]
 
 
 }
