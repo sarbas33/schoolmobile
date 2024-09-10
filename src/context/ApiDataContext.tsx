@@ -16,6 +16,15 @@ interface AttendanceSubjectEntry {
   code?: string;
 }
 
+interface Post {
+  id: string;
+  accountName: string;
+  accountIcon: string;
+  postDate: string;
+  caption: string;
+  photos: string[];
+}
+
 interface ApiDataContextType {
   data: any[];
   loading: boolean;
@@ -23,6 +32,8 @@ interface ApiDataContextType {
   grades: Grade[];
   examTypes: any[];
   refetchData: () => void;
+  posts: Post[];
+  studentName: string;
 }
 
 const ApiDataContext = createContext<ApiDataContextType | undefined>(undefined);
@@ -49,6 +60,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   const [schoolName, setSchoolName] = useState<any[]>([]);
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [schoolAccountDetails, setSchoolAccountDetails] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const refetchData = async () => {
     setLoading(true);
@@ -75,6 +87,7 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
       setFees(fetchedData.fees);
       setAnnouncements(fetchedData.announcements);
       setSchoolAccountDetails(fetchedData.schoolAccountDetails);
+      setPosts(fetchedData.posts);
     } catch (err) {
       setError('Failed to fetch data');
     } finally {
@@ -87,7 +100,31 @@ export const ApiDataProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ApiDataContext.Provider value={{ data, loading, error, grades, examTypes, attendance, clubs, attendanceRecord, schoolAccountDetails, announcements, fees, studentName, studentClass, schoolName, attendanceToday, busTiming, quizzes, timetable, assignments, attendanceSubject, tests, refetchData }}>
+    <ApiDataContext.Provider value={{ 
+      data, 
+      loading, 
+      error, 
+      grades, 
+      examTypes, 
+      attendance, 
+      clubs, 
+      attendanceRecord, 
+      schoolAccountDetails, 
+      announcements, 
+      fees, 
+      studentName, 
+      studentClass, 
+      schoolName, 
+      attendanceToday, 
+      busTiming, 
+      quizzes, 
+      timetable, 
+      assignments, 
+      attendanceSubject, 
+      tests, 
+      refetchData, 
+      posts 
+    }}>
       {children}
     </ApiDataContext.Provider>
   );

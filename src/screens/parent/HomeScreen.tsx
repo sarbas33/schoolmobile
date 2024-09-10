@@ -1,114 +1,88 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useApiData } from '../../context/ApiDataContext';
 import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = () => {
-  const { attendanceToday, busTiming, studentName, studentClass } = useApiData();
+const PHOTO_SIZE = 300;
+const FEATURE_ICON_SIZE = 60;
+
+const HomeScreen: React.FC = () => {
+  const { posts, studentName } = useApiData();
   const navigation = useNavigation();
 
-  let attendanceMessage;
-  let backgroundColor;
+  const featureIcons = [
+    { name: 'Attendance', icon: 'calendar-outline', screen: 'Attendance' },
+    { name: 'Timetable', icon: 'time-outline', screen: 'Timetable' },
+    { name: 'Fees', icon: 'cash-outline', screen: 'Fees' },
+    { name: 'Clubs', icon: 'people-outline', screen: 'Clubs' },
+    { name: 'Bus', icon: 'bus-outline', screen: 'BusTracking' },
+    { name: 'Announcements', icon: 'megaphone-outline', screen: 'Announcements' },
+  ];
 
-  // Handling attendance message and background color
-  switch (attendanceToday) {
-    case 'present':
-      attendanceMessage = `${studentName} is present today.`;
-      backgroundColor = '#d4edda'; // Light green
-      break;
-    case 'absent':
-      attendanceMessage = `${studentName} is absent today.`;
-      backgroundColor = '#f8d7da'; // Light red
-      break;
-    case 'notTaken':
-      attendanceMessage = 'Attendance not taken yet.';
-      backgroundColor = '#fff3cd'; // Light yellow
-      break;
-    case 'holiday':
-      attendanceMessage = 'Today is a holiday.';
-      backgroundColor = '#d1ecf1'; // Light blue
-      break;
-    default:
-      attendanceMessage = 'Status unknown.';
-      backgroundColor = '#ffffff'; // White
-  }
+  const renderFeatureIcon = ({ item }: { item: any }) => (
+    <TouchableOpacity 
+      style={styles.featureIconContainer}
+      onPress={() => navigation.navigate(item.screen as never)}
+    >
+      <View style={styles.featureIconCircle}>
+        <Ionicons name={item.icon} size={30} color={Colors.white} />
+      </View>
+      <Text style={styles.featureIconName} numberOfLines={1}>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
-  const busMessage =
-    busTiming.minutesAway === -1
-      ? `Bus not started yet. Expected time of arrival: ${busTiming.eta}`
-      : `Bus is ${busTiming.minutesAway} minutes away, ${
-          busTiming.direction === 'toSchool' ? 'heading to school' : 'coming back from school'
-        }.`;
-
-  // Navigate to different screens
-  const navigateToScreen = (screen) => {
-    navigation.navigate(screen);
-  };
+  const renderPost = ({ item }: { item: any }) => (
+    <View style={styles.postCard}>
+      <View style={styles.postHeader}>
+        <Image source={{ uri: item.accountIcon }} style={styles.accountIcon} />
+        <View style={styles.postHeaderText}>
+          <Text style={styles.accountName}>{item.accountName}</Text>
+          <Text style={styles.postDate}>{item.postDate}</Text>
+        </View>
+      </View>
+      {item.photos && item.photos.length > 0 && (
+        <Image
+          source={{ uri: item.photos[0] }}
+          style={styles.postPhoto}
+        />
+      )}
+      <Text style={styles.postCaption}>{item.caption}</Text>
+      <View style={styles.postActions}>
+        <TouchableOpacity style={styles.actionButton}>
+          <Ionicons name="heart-outline" size={24} color={Colors.text} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.actionButton}>
+          <Ionicons name="chatbubble-outline" size={24} color={Colors.text} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.actionButton}>
+          <Ionicons name="paper-plane-outline" size={24} color={Colors.text} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.studentDetails}>
-        {studentName}
-      </Text>
-      <View style={[styles.card, { backgroundColor }]}>
-        <Text style={styles.attendanceText}>{attendanceMessage}</Text>
-      </View>
-      {/* <View style={styles.card}>
-        <Text style={styles.busText}>{busMessage}</Text>
-      </View> */}
-
-      {/* Navigation Options with Ionicons in a Grid Layout */}
-      <View style={styles.iconContainer}>
-        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Timetable')}>
-          <View style={styles.iconBackground}>
-            <Ionicons name="calendar-outline" size={20} color="#fff" />
-          </View>
-          <Text style={styles.iconText}>Timetable</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('BusTracking')}>
-          <View style={styles.iconBackground}>
-            <Ionicons name="bus-outline" size={20} color="#fff" />
-          </View>
-          <Text style={styles.iconText}>Bus Tracking</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Announcements')}>
-          <View style={styles.iconBackground}>
-            <Ionicons name="megaphone-outline" size={20} color="#fff" />
-          </View>
-          <Text style={styles.iconText}>Announcements</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Attendance')}>
-          <View style={styles.iconBackground}>
-            <Ionicons name="checkmark-done-outline" size={20} color="#fff" />
-          </View>
-          <Text style={styles.iconText}>Attendance</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Fees')}>
-          <View style={styles.iconBackground}>
-            <Ionicons name="wallet-outline" size={20} color="#fff" />
-          </View>
-          <Text style={styles.iconText}>Fees</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Quiz')}>
-          <View style={styles.iconBackground}>
-            <Ionicons name="help-circle-outline" size={20} color="#fff" />
-          </View>
-          <Text style={styles.iconText}>Quiz</Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.icon} onPress={() => navigateToScreen('Clubs')}>
-          <View style={styles.iconBackground}>
-            <Ionicons name="people-outline" size={20} color="#fff" />
-          </View>
-          <Text style={styles.iconText}>Clubs</Text>
-        </TouchableOpacity>
+      <FlatList
+        data={posts}
+        renderItem={renderPost}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.listContainer}
+        ListHeaderComponent={
+          <>
+            <View style={styles.featureIconsContainer}>
+              {featureIcons.map((item, index) => (
+                <View key={index} style={styles.featureIconWrapper}>
+                  {renderFeatureIcon({ item })}
+                </View>
+              ))}
+            </View>
+          </>
+        }
+      />
     </View>
   );
 };
@@ -116,64 +90,87 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: Colors.screenBackground,
   },
-  studentDetails: {
-    fontSize: 18,
-    textAlign: 'right',
-    marginBottom: 20,
-    color: Colors.text, // Use the text color from Colors
-  },
-  card: {
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  attendanceText: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: Colors.text
-  },
-  busText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: Colors.text
-  },
-  iconContainer: {
+  featureIconsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 16,
   },
-  icon: {
-    width: '30%',
+  featureIconWrapper: {
+    width: '33%',
+    marginBottom: 16,
     alignItems: 'center',
-    marginBottom: 20,
   },
-  iconBackground: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#2c3e50', // Dark grey color
+  featureIconContainer: {
+    alignItems: 'center',
+  },
+  featureIconCircle: {
+    width: FEATURE_ICON_SIZE,
+    height: FEATURE_ICON_SIZE,
+    borderRadius: FEATURE_ICON_SIZE / 2,
+    backgroundColor: Colors.darkGrey,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
+    marginBottom: 8,
   },
-  iconText: {
+  featureIconName: {
+    fontSize: Fonts.size.small,
     color: Colors.text,
-    fontSize: 12,
-    fontWeight: 'bold',
     textAlign: 'center',
+  },
+  listContainer: {
+    paddingBottom: 16,
+  },
+  postCard: {
+    backgroundColor: Colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+    marginBottom: 16,
+  },
+  postHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+  },
+  accountIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+  },
+  postHeaderText: {
+    flex: 1,
+  },
+  accountName: {
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.bold,
+    color: Colors.text,
+  },
+  postDate: {
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
+  },
+  postPhoto: {
+    width: '100%',
+    height: PHOTO_SIZE,
+    resizeMode: 'cover',
+  },
+  postCaption: {
+    fontSize: Fonts.size.medium,
+    color: Colors.text,
+    padding: 12,
+  },
+  postActions: {
+    flexDirection: 'row',
+    padding: 12,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+  },
+  actionButton: {
+    marginRight: 16,
   },
 });
 

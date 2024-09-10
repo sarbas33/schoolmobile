@@ -383,6 +383,41 @@
         }
       ]
     }
+  ],
+
+"posts": [
+    {
+      "id": "1",
+      "accountName": "School Principal",
+      "accountIcon": "https://res.cloudinary.com/df85vhuld/image/upload/v1725988015/samples/people/smiling-man.jpg",
+      "postDate": "2023-05-15T10:30:00Z",
+      "caption": "Congratulations to our Basketball team for winning the inter-school competition!",
+      "photos": [
+        "https://res.cloudinary.com/df85vhuld/image/upload/v1725988025/cld-sample-3.jpg",
+        "trophy_photo.jpg"
+      ]
+    },
+    {
+      "id": "2",
+      "accountName": "Science Department",
+      "accountIcon": "https://res.cloudinary.com/df85vhuld/image/upload/v1725988015/samples/bike.jpg",
+      "postDate": "2023-05-14T14:45:00Z",
+      "caption": "Exciting experiments in today's chemistry class. Students learned about chemical reactions!",
+      "photos": [
+        "https://res.cloudinary.com/df85vhuld/image/upload/v1725988016/samples/imagecon-group.jpg"
+      ]
+    },
+    {
+      "id": "3",
+      "accountName": "Sports Coach",
+      "accountIcon": "https://res.cloudinary.com/df85vhuld/image/upload/v1725988014/samples/people/kitchen-bar.jpg",
+      "postDate": "2023-05-13T16:00:00Z",
+      "caption": "Our football team is gearing up for the upcoming tournament. Good luck, team!",
+      "photos": [
+        "https://res.cloudinary.com/df85vhuld/image/upload/v1725988016/samples/cloudinary-group.jpg",
+        "team_huddle.jpg"
+      ]
+    }
   ]
 
 

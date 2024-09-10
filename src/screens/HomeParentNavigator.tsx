@@ -69,12 +69,17 @@ const HomeStackNavigator = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerTitle: 'SchoolSync',
+          options={{ headerTitle: 'DUXFORD',
                     headerTitleStyle: {
-                        color: '#1EA355', // Darker green color
-                        fontSize: 20, // Slightly smaller font size
-                        fontWeight: 'bold', // Bolder font
-              } }}
+                        color: '#4B0082', // Deep purple color for 'College'
+                        fontSize: 20, // Slightly reduced font size for better readability
+                        fontWeight: '700', // Increased boldness for clarity
+                        fontFamily: Platform.OS === 'ios' ? 'Helvetica Neue' : 'Roboto', // More standard fonts
+                        letterSpacing: 0.5, // Reduced letter spacing for better readability
+                        textShadowColor: 'rgba(75, 0, 130, 0.2)', // Lighter text shadow
+                        textShadowOffset: { width: 0.5, height: 0.5 },
+                        textShadowRadius: 1,
+                    } }}
         />
         <Stack.Screen name="Timetable" component={ScheduleScreen} />
         <Stack.Screen name="BusTracking" component={BusTrackingScreen} />
