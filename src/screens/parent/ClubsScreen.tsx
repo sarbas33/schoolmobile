@@ -2,24 +2,33 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
 
 const ClubsScreen: React.FC = () => {
   const { clubs } = useApiData();
   const navigation = useNavigation();
 
-  const navigateToClubDetails = (clubId: string) => {
-    navigation.navigate('ClubDetails', { clubId });
+  const navigateToClubDetails = (clubId: string, clubName: string) => {
+    navigation.navigate('ClubDetails', { clubId, clubName });
   };
 
   const renderClub = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={styles.clubCard}
-      onPress={() => navigateToClubDetails(item.id)}
+      onPress={() => navigateToClubDetails(item.id, item.name)}
     >
-      <Text style={styles.clubName}>{item.name}</Text>
-      <Text style={styles.clubAdminStatus}>
-        {item.isAdminOfClub ? "Admin" : "Member"}
-      </Text>
+      <View style={styles.iconContainer}>
+        <Ionicons name="people-outline" size={20} color={Colors.headerTint} />
+      </View>
+      <View style={styles.clubInfo}>
+        <Text style={styles.clubName}>{item.name}</Text>
+        <Text style={styles.clubAdminStatus}>
+          {item.isAdminOfClub ? "Admin" : "Member"}
+        </Text>
+      </View>
+      <Ionicons name="chevron-forward-outline" size={20} color={Colors.textLight} />
     </TouchableOpacity>
   );
 
@@ -38,37 +47,42 @@ const ClubsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
+    backgroundColor: Colors.screenBackground,
   },
   listContainer: {
-    paddingBottom: 20,
+    padding: 12,
   },
   clubCard: {
-    padding: 15,
-    marginBottom: 10,
-    backgroundColor: '#ffffff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
+    marginBottom: 8,
+    padding: 12,
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  iconContainer: {
+    marginRight: 12,
+    backgroundColor: Colors.headerBackground,
+    borderRadius: 20,
+    padding: 8,
+  },
+  clubInfo: {
+    flex: 1,
   },
   clubName: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.bold,
+    color: Colors.text,
   },
   clubAdminStatus: {
-    fontSize: 14,
-    color: '#888',
-    marginTop: 5,
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
+    marginTop: 2,
   },
 });
 

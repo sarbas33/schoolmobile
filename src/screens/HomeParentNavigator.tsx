@@ -83,7 +83,13 @@ const HomeStackNavigator = () => {
         options={{ headerTitle: 'Announcement' }} />
         <Stack.Screen name="Attendance" component={AttendanceScreen} />
         <Stack.Screen name="Clubs" component={ClubsScreen} />
-        <Stack.Screen name="ClubDetails" component={ClubDetailsScreen} />
+        <Stack.Screen 
+          name="ClubDetails" 
+          component={ClubDetailsScreen} 
+          options={({ route }) => ({ 
+            headerTitle: route.params?.clubName || 'Club Details',
+          })}
+        />
         <Stack.Screen name="AttendanceRecord" component={AttendanceRecordScreen} />
         <Stack.Screen name="Fees" component={FeesScreen} />
         <Stack.Screen name="Quiz" component={QuizScreen} />

@@ -2,6 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useApiData } from '../../context/ApiDataContext';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../../constants/Colors';
+import { Fonts } from '../../constants/fonts';
 
 const ClubDetailsScreen: React.FC = () => {
   const { clubs } = useApiData();
@@ -32,7 +35,6 @@ const ClubDetailsScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{club.name}</Text>
       <FlatList
         data={club.announcements}
         renderItem={renderAnnouncement}
@@ -41,6 +43,7 @@ const ClubDetailsScreen: React.FC = () => {
       />
       {club.isAdminOfClub && (
         <TouchableOpacity style={styles.postButton}>
+          <Ionicons name="add-outline" size={20} color={Colors.white} />
           <Text style={styles.postButtonText}>Post Announcement</Text>
         </TouchableOpacity>
       )}
@@ -51,58 +54,64 @@ const ClubDetailsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.screenBackground,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: Fonts.size.huge,
+    fontWeight: Fonts.weight.bold,
+    color: Colors.text,
     textAlign: 'center',
-    marginBottom: 20,
+    marginVertical: 16,
   },
   listContainer: {
-    paddingBottom: 20,
+    padding: 12,
   },
   announcementCard: {
-    padding: 15,
-    marginBottom: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.white,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3.84,
-    elevation: 5,
+    marginBottom: 8,
+    padding: 12,
+    shadowColor: Colors.text,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   announcementText: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: Fonts.size.medium,
+    fontWeight: Fonts.weight.semibold,
+    color: Colors.text,
+    marginBottom: 4,
   },
   announcementDetails: {
-    fontSize: 14,
-    color: '#555',
-    marginTop: 5,
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
+    marginBottom: 2,
   },
   eventDetails: {
-    fontSize: 14,
-    color: '#888',
-    marginTop: 5,
+    fontSize: Fonts.size.small,
+    color: Colors.textLight,
   },
   postButton: {
-    padding: 15,
-    backgroundColor: '#007bff',
-    borderRadius: 8,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.darkGrey,
+    borderRadius: 8,
+    margin: 12,
+    padding: 12,
   },
   postButtonText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: 'bold',
+    fontSize: Fonts.size.medium,
+    color: Colors.white,
+    fontWeight: Fonts.weight.bold,
+    marginLeft: 8,
   },
   errorText: {
-    fontSize: 18,
-    color: '#ff0000',
+    fontSize: Fonts.size.large,
+    color: Colors.error,
     textAlign: 'center',
+    marginTop: 20,
   },
 });
 
